@@ -979,7 +979,7 @@ img {
 	line-height: 1.25;
 }
 
-.page-content h1 {
+.page-content :is(h1, .is-style-title) {
 	font-size: 1.5rem;
 	font-weight: 700;
 }
@@ -1192,6 +1192,61 @@ img {
 
 .wp-lightbox-overlay :is(.wp-lightbox-close-button, .wp-lightbox-navigation-button-prev, .wp-lightbox-navigation-button-next) svg {
 	fill: currentcolor;
+}
+
+/*
+ * Videos and embeds fill the content column in 16:9, like Elementor's video widget.
+ * The video grid rules are not scoped to the page content, so the editor shows the grid as the page does.
+ */
+.page-content :is(.wp-block-video, .wp-block-embed) {
+	margin: 0;
+}
+
+:is(.page-content, .wp-block-eichendorff-film) .wp-block-video video {
+	display: block;
+	width: 100%;
+	aspect-ratio: 16 / 9;
+	background-color: #000;
+	object-fit: cover;
+}
+
+/* Elementor's grid of videos: two columns 3rem / 1rem apart, each title and video aligned to the bottom of its row. */
+.wp-block-eichendorff-video-grid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	align-items: end;
+	gap: 3rem 1rem;
+}
+
+.wp-block-eichendorff-film {
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+}
+
+.wp-block-eichendorff-video-grid > *,
+.wp-block-eichendorff-film > * {
+	margin: 0;
+}
+
+.wp-block-eichendorff-film h3 {
+	font-family: var(--wp--preset--font-family--inter);
+	font-size: 1rem;
+	font-weight: 600;
+	line-height: 1.25;
+}
+
+@media (max-width: 767px) {
+	.wp-block-eichendorff-video-grid {
+		grid-template-columns: minmax(0, 1fr);
+	}
+}
+
+.page-content .map-embed {
+	display: block;
+	width: 100%;
+	height: 25rem;
+	border: 0;
 }
 
 .site-columns .wp-block-query-pagination {

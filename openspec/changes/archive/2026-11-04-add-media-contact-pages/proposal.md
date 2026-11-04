@@ -24,7 +24,7 @@ Brak.
 
 ## Impact
 
-- **Theme:** `assets/css/main.css`, `tools/import-pages.php`.
+- **Theme:** `assets/css/main.css`, `functions.php`, `tools/import-pages.php`, nowe bloki `blocks/video-grid` i `blocks/film`.
 - **Baza lokalna:** 2 strony, 1 plik wideo do 100 MB.
 - **Produkcja:** pliki wideo powyżej 100 MB są odtwarzane z `eichendorff.pl`.
 - **Zależności:** `add-page-template`.

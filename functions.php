@@ -42,8 +42,25 @@ function eichendorff_setup(): void {
 			'label' => __( 'Siatka', 'eichendorff' ),
 		)
 	);
+
+	register_block_style(
+		'core/heading',
+		array(
+			'name'  => 'title',
+			'label' => __( 'Tytuł', 'eichendorff' ),
+		)
+	);
 }
 add_action( 'after_setup_theme', 'eichendorff_setup' );
+
+/**
+ * Registers the theme blocks: Video grid and the Film blocks inside it.
+ */
+function eichendorff_register_blocks(): void {
+	register_block_type( get_theme_file_path( 'blocks/video-grid' ) );
+	register_block_type( get_theme_file_path( 'blocks/film' ) );
+}
+add_action( 'init', 'eichendorff_register_blocks' );
 
 /**
  * Keeps the characters editors typed in post and page content, as Elementor showed them on production.

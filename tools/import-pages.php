@@ -165,13 +165,20 @@ function eichendorff_import_paragraph( string $html, string $align = '' ): strin
 /**
  * Returns a heading block.
  *
- * @param int    $level Heading level.
- * @param string $html  Inline HTML.
+ * @param int    $level      Heading level.
+ * @param string $html       Inline HTML.
+ * @param string $class_name Block style class, such as `is-style-title`.
  */
-function eichendorff_import_heading( int $level, string $html ): string {
-	$attrs = 2 === $level ? array() : array( 'level' => $level );
+function eichendorff_import_heading( int $level, string $html, string $class_name = '' ): string {
+	$attrs   = 2 === $level ? array() : array( 'level' => $level );
+	$classes = 'wp-block-heading';
 
-	return eichendorff_import_block( 'heading', $attrs, "<h$level class=\"wp-block-heading\">" . eichendorff_import_inline( $html ) . "</h$level>" );
+	if ( $class_name ) {
+		$attrs['className'] = $class_name;
+		$classes           .= " $class_name";
+	}
+
+	return eichendorff_import_block( 'heading', $attrs, "<h$level class=\"$classes\">" . eichendorff_import_inline( $html ) . "</h$level>" );
 }
 
 /**
@@ -425,6 +432,157 @@ function eichendorff_import_gallery( DOMElement $widget, string $page ): string 
 }
 
 /**
+ * Turns a video widget into an Embed block for YouTube, or a Video block for a file.
+ *
+ * A file from production up to EICHENDORFF_MAX_MEDIA_BYTES goes to the media library;
+ * a larger one, or one from elsewhere, plays from its full address.
+ *
+ * @param DOMElement $widget Widget element.
+ * @param string     $page   Page path, for error messages and relative addresses.
+ */
+function eichendorff_import_video( DOMElement $widget, string $page ): string {
+	$settings = json_decode( $widget->getAttribute( 'data-settings' ), true ) ?: array();
+	$xpath    = new DOMXPath( $widget->ownerDocument );
+
+	if ( 'youtube' === ( $settings['video_type'] ?? '' ) ) {
+		$url    = $settings['youtube_url'] ?? '';
+		$iframe = $xpath->query( './/iframe[contains(@src, "youtube.com/embed/")]', $widget )->item( 0 );
+
+		if ( ! $url && $iframe && preg_match( '#youtube\.com/embed/([\w-]+)#', $iframe->getAttribute( 'src' ), $m ) ) {
+			$url = "https://www.youtube.com/watch?v={$m[1]}";
+		}
+
+		if ( ! preg_match( '#^https://(www\.)?(youtube\.com/watch\?v=|youtu\.be/)[\w-]+#', $url ) ) {
+			throw new RuntimeException( "$page: film z YouTube bez adresu." );
+		}
+
+		return eichendorff_import_block(
+			'embed',
+			array(
+				'url'              => $url,
+				'type'             => 'video',
+				'providerNameSlug' => 'youtube',
+				'responsive'       => true,
+				'className'        => 'wp-embed-aspect-16-9 wp-has-aspect-ratio',
+			),
+			"<figure class=\"wp-block-embed is-type-video is-provider-youtube wp-block-embed-youtube wp-embed-aspect-16-9 wp-has-aspect-ratio\"><div class=\"wp-block-embed__wrapper\">\n$url\n</div></figure>"
+		);
+	}
+
+	$video = $xpath->query( './/video[@src]', $widget )->item( 0 );
+
+	if ( ! $video ) {
+		throw new RuntimeException( "$page: widget wideo bez pliku." );
+	}
+
+	$src   = WP_Http::make_absolute_url( $video->getAttribute( 'src' ), EICHENDORFF_SOURCE_SITE . "/$page/" );
+	$attrs = array();
+
+	if ( str_starts_with( $src, EICHENDORFF_SOURCE_SITE . '/' ) ) {
+		$size = (int) wp_remote_retrieve_header( wp_remote_head( $src, array( 'timeout' => 30 ) ), 'content-length' );
+
+		if ( $size && $size <= EICHENDORFF_MAX_MEDIA_BYTES ) {
+			$id = eichendorff_media_from_url( $src, 0 );
+
+			if ( ! $id ) {
+				throw new RuntimeException( "$page: nie udało się pobrać filmu $src." );
+			}
+
+			$attrs['id'] = $id;
+			$src         = wp_get_attachment_url( $id );
+		}
+	}
+
+	$poster = '';
+
+	if ( $video->getAttribute( 'poster' ) ) {
+		$poster_id = eichendorff_media_from_url( $video->getAttribute( 'poster' ), 0 );
+		$poster    = $poster_id ? ' poster="' . esc_url( wp_get_attachment_url( $poster_id ) ) . '"' : '';
+	}
+
+	// Without a poster production loads nothing before the video starts; with one it loads the metadata, the block default.
+	$preload = 'none' === $video->getAttribute( 'preload' ) ? ' preload="none"' : '';
+
+	return eichendorff_import_block( 'video', $attrs, '<figure class="wp-block-video"><video controls' . $poster . $preload . ' src="' . esc_url( $src ) . '"></video></figure>' );
+}
+
+/**
+ * Turns a Google Maps widget into a Custom HTML block with the same map as production.
+ *
+ * Google Maps has no oEmbed, so there is no core block for it.
+ *
+ * @param DOMElement $widget Widget element.
+ * @param string     $page   Page path, for error messages.
+ */
+function eichendorff_import_map( DOMElement $widget, string $page ): string {
+	$iframe = ( new DOMXPath( $widget->ownerDocument ) )->query( './/iframe', $widget )->item( 0 );
+
+	if ( ! $iframe ) {
+		throw new RuntimeException( "$page: widget mapy bez mapy." );
+	}
+
+	return eichendorff_import_block(
+		'html',
+		array(),
+		sprintf( '<iframe class="map-embed" src="%s" title="%s" loading="lazy"></iframe>', esc_url( $iframe->getAttribute( 'src' ) ), esc_attr( $iframe->getAttribute( 'title' ) ) )
+	);
+}
+
+/**
+ * Turns an Elementor grid of containers into a Video grid block, one Film block per container.
+ *
+ * A Film holds a title and a player, so each container must give a heading followed by a video or an embed.
+ *
+ * @param DOMElement $grid Grid container.
+ * @param string     $page Page path, for error messages.
+ */
+function eichendorff_import_grid( DOMElement $grid, string $page ): string {
+	$films = array();
+
+	foreach ( $grid->childNodes as $child ) {
+		if ( ! $child instanceof DOMElement ) {
+			continue;
+		}
+
+		$blocks = 'container' === $child->getAttribute( 'data-e-type' ) ? eichendorff_import_widgets( $child, $page ) : array();
+
+		if ( 2 !== count( $blocks ) || ! str_starts_with( $blocks[0], '<!-- wp:heading' ) || ! preg_match( '/^<!-- wp:(video|embed)[ -]/', $blocks[1] ) ) {
+			throw new RuntimeException( "$page: element siatki to nie tytuł z filmem." );
+		}
+
+		$films[] = eichendorff_import_block( 'eichendorff/film', array(), "<div class=\"wp-block-eichendorff-film\">\n" . implode( "\n\n", $blocks ) . "\n</div>" );
+	}
+
+	return eichendorff_import_block( 'eichendorff/video-grid', array(), "<div class=\"wp-block-eichendorff-video-grid\">\n" . implode( "\n\n", $films ) . "\n</div>" );
+}
+
+/**
+ * Tells whether the last thing in a widget is a paragraph, and not bare text or another element.
+ *
+ * @param DOMElement $widget Widget element.
+ */
+function eichendorff_import_ends_with_paragraph( DOMElement $widget ): bool {
+	for ( $node = $widget->lastChild; $node; $node = $node->previousSibling ) {
+		if ( $node instanceof DOMText && '' === trim( $node->textContent ) ) {
+			continue;
+		}
+
+		return $node instanceof DOMElement && 'p' === $node->tagName;
+	}
+
+	return false;
+}
+
+/**
+ * Returns the Elementor element ID of a widget or container.
+ *
+ * @param DOMElement $element Element.
+ */
+function eichendorff_import_element_id( DOMElement $element ): string {
+	return preg_match( '/elementor-element-([0-9a-f]+)/', $element->getAttribute( 'class' ), $m ) ? $m[1] : '';
+}
+
+/**
  * Turns one Elementor widget into blocks.
  *
  * @param DOMElement $widget Widget element.
@@ -469,15 +627,22 @@ function eichendorff_import_widget( DOMElement $widget, string $page ): array {
 
 		case 'heading':
 			$title = $xpath->query( './/*[contains(@class, "elementor-heading-title")]', $widget )->item( 0 );
-			return array( eichendorff_import_heading( (int) substr( $title->tagName, 1 ), eichendorff_import_inner_html( $title ) ) );
+			$level = (int) substr( $title->tagName, 1 );
+			$style = $level > 1 && in_array( eichendorff_import_element_id( $widget ), $GLOBALS['eichendorff_title_headings'] ?? array(), true ) ? 'is-style-title' : '';
+			return array( eichendorff_import_heading( $level, eichendorff_import_inner_html( $title ), $style ) );
+
+		case 'video':
+			return array( eichendorff_import_video( $widget, $page ) );
+
+		case 'google_maps':
+			return array( eichendorff_import_map( $widget, $page ) );
 
 		case 'text-editor':
 			return eichendorff_import_text_editor( $widget, $page );
 
 		case 'icon-list':
 			$list  = $xpath->query( './/ul', $widget )->item( 0 );
-			$id    = preg_match( '/elementor-element-([0-9a-f]+)/', $widget->getAttribute( 'class' ), $m ) ? $m[1] : '';
-			$style = in_array( $id, $GLOBALS['eichendorff_column_lists'] ?? array(), true ) ? 'is-style-square-columns' : 'is-style-square';
+			$style = in_array( eichendorff_import_element_id( $widget ), $GLOBALS['eichendorff_column_lists'] ?? array(), true ) ? 'is-style-square-columns' : 'is-style-square';
 			return array( eichendorff_import_list( $list, array( 'className' => $style ), 'eichendorff_import_icon_item_text' ) );
 
 		case 'divider':
@@ -492,30 +657,41 @@ function eichendorff_import_widget( DOMElement $widget, string $page ): array {
 /**
  * Turns the widgets of a container into blocks, skipping widgets nested in other widgets.
  *
+ * A grid container becomes one block with its widgets inside.
+ *
  * @param DOMElement $root Page, tab or accordion panel.
  * @param string     $page Page path, for error messages.
  */
 function eichendorff_import_widgets( DOMElement $root, string $page ): array {
 	$is_widget = static fn( DOMNode $node ): bool => $node instanceof DOMElement && ( $node->hasAttribute( 'data-widget_type' ) || 'widget' === $node->getAttribute( 'data-e-type' ) );
+	$is_grid   = static fn( DOMNode $node ): bool => $node instanceof DOMElement && 'container' === $node->getAttribute( 'data-e-type' ) && in_array( 'e-grid', explode( ' ', $node->getAttribute( 'class' ) ), true );
 	$blocks    = array();
+	$keeps_gap = false;
 
 	foreach ( iterator_to_array( $root->getElementsByTagName( '*' ) ) as $widget ) {
-		if ( ! $is_widget( $widget ) ) {
+		if ( ! $is_widget( $widget ) && ! $is_grid( $widget ) ) {
 			continue;
 		}
 
 		for ( $parent = $widget->parentNode; $parent && $parent !== $root; $parent = $parent->parentNode ) {
-			if ( $is_widget( $parent ) ) {
+			if ( $is_widget( $parent ) || $is_grid( $parent ) ) {
 				continue 2;
 			}
 		}
 
-		$widget_blocks = eichendorff_import_widget( $widget, $page );
+		$widget_blocks = $is_grid( $widget ) ? array( eichendorff_import_grid( $widget, $page ) ) : eichendorff_import_widget( $widget, $page );
+
+		// A text without the `f-text-last-mb-0` class keeps the 14.4px margin of its last paragraph above the next widget.
+		if ( $widget_blocks && $keeps_gap && eichendorff_import_is_paragraph( end( $blocks ) ) ) {
+			$blocks[ array_key_last( $blocks ) ] = eichendorff_import_spacing( end( $blocks ), array( 'padding' => array( 'bottom' => '0.9rem' ) ) );
+		}
 
 		// Within one text a paragraph or list follows a paragraph 14.4px below; the next widget keeps the 16px widget gap.
 		if ( $widget_blocks && $blocks && eichendorff_import_is_paragraph( end( $blocks ) ) && eichendorff_import_is_text( $widget_blocks[0] ) ) {
-			$widget_blocks[0] = eichendorff_import_widget_gap( $widget_blocks[0] );
+			$widget_blocks[0] = eichendorff_import_spacing( $widget_blocks[0], array( 'margin' => array( 'top' => '1rem' ) ) );
 		}
+
+		$keeps_gap = $widget_blocks && 'text-editor.default' === $widget->getAttribute( 'data-widget_type' ) && ! in_array( 'f-text-last-mb-0', explode( ' ', $widget->getAttribute( 'class' ) ), true ) && eichendorff_import_ends_with_paragraph( $widget );
 
 		array_push( $blocks, ...$widget_blocks );
 	}
@@ -524,13 +700,11 @@ function eichendorff_import_widgets( DOMElement $root, string $page ): array {
 }
 
 /**
- * Returns the Elementor element IDs of icon lists laid out in columns by custom CSS on production.
- *
- * The page CSS is kept next to the copies of the pages.
+ * Returns the Elementor CSS of a production page, kept next to the copies of the pages.
  *
  * @param int $source_id Production page ID.
  */
-function eichendorff_import_column_lists( int $source_id ): array {
+function eichendorff_import_page_css( int $source_id ): string {
 	$file = eichendorff_import_dir() . "/$source_id.css";
 
 	if ( ! file_exists( $file ) ) {
@@ -538,7 +712,27 @@ function eichendorff_import_column_lists( int $source_id ): array {
 		file_put_contents( $file, 200 === wp_remote_retrieve_response_code( $response ) ? wp_remote_retrieve_body( $response ) : '' );
 	}
 
-	preg_match_all( '/elementor-element-([0-9a-f]+) ul \{\s*column-count:\s*[2-9]/', file_get_contents( $file ), $m );
+	return file_get_contents( $file );
+}
+
+/**
+ * Returns the Elementor element IDs of icon lists laid out in columns by custom CSS on production.
+ *
+ * @param int $source_id Production page ID.
+ */
+function eichendorff_import_column_lists( int $source_id ): array {
+	preg_match_all( '/elementor-element-([0-9a-f]+) ul\s*\{\s*column-count:\s*[2-9]/', eichendorff_import_page_css( $source_id ), $m );
+
+	return array_unique( $m[1] );
+}
+
+/**
+ * Returns the Elementor element IDs of headings set in the page title typography on production.
+ *
+ * @param int $source_id Production page ID.
+ */
+function eichendorff_import_title_headings( int $source_id ): array {
+	preg_match_all( '/elementor-element-([0-9a-f]+) \.elementor-heading-title\s*\{\s*font-family:\s*var\(\s*--e-global-typography-primary-/', eichendorff_import_page_css( $source_id ), $m );
 
 	return array_unique( $m[1] );
 }
@@ -579,18 +773,25 @@ function eichendorff_import_is_text( string $block ): bool {
 }
 
 /**
- * Gives a paragraph or list the 16px top margin that separates Elementor widgets.
+ * Adds spacing to a paragraph or list, such as the 16px top margin that separates Elementor widgets.
  *
- * @param string $block Paragraph or list block markup.
+ * @param string $block   Paragraph or list block markup.
+ * @param array  $spacing Spacing attributes, such as `[ 'margin' => [ 'top' => '1rem' ] ]`.
  */
-function eichendorff_import_widget_gap( string $block ): string {
+function eichendorff_import_spacing( string $block, array $spacing ): string {
 	return preg_replace_callback(
-		'/^<!-- wp:(paragraph|list)(?: (\{.*?\}))? -->\n<(p|ul|ol)( class="[^"]*")?>/',
-		static function ( array $m ): string {
-			$attrs = json_decode( $m[2] ?? '', true ) ?: array();
-			$attrs = $attrs + array( 'style' => array( 'spacing' => array( 'margin' => array( 'top' => '1rem' ) ) ) );
+		'/^<!-- wp:(paragraph|list)(?: (\{.*?\}))? -->\n<(p|ul|ol)( class="[^"]*")?(?: style="[^"]*")?>/',
+		static function ( array $m ) use ( $spacing ): string {
+			$attrs = array_replace_recursive( json_decode( $m[2] ?? '', true ) ?: array(), array( 'style' => array( 'spacing' => $spacing ) ) );
+			$css   = array();
 
-			return "<!-- wp:{$m[1]} " . wp_json_encode( $attrs, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES ) . " -->\n<{$m[3]}" . ( $m[4] ?? '' ) . ' style="margin-top:1rem">';
+			foreach ( array( 'padding', 'margin' ) as $property ) {
+				foreach ( $attrs['style']['spacing'][ $property ] ?? array() as $side => $value ) {
+					$css[] = "$property-$side:$value";
+				}
+			}
+
+			return "<!-- wp:{$m[1]} " . wp_json_encode( $attrs, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES ) . " -->\n<{$m[3]}" . ( $m[4] ?? '' ) . ' style="' . implode( ';', $css ) . '">';
 		},
 		$block
 	);
@@ -611,7 +812,8 @@ function eichendorff_import_content( array $source, string $page ): string {
 	$document->loadHTML( '<?xml encoding="utf-8"?><div>' . eichendorff_import_files( $source['content']['rendered'] ) . '</div>', LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD );
 	libxml_clear_errors();
 
-	$GLOBALS['eichendorff_column_lists'] = eichendorff_import_column_lists( $source['id'] );
+	$GLOBALS['eichendorff_column_lists']   = eichendorff_import_column_lists( $source['id'] );
+	$GLOBALS['eichendorff_title_headings'] = eichendorff_import_title_headings( $source['id'] );
 
 	$blocks = eichendorff_import_widgets( $document->documentElement, $page );
 	$has_h1 = false;

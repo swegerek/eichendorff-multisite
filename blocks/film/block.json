@@ -1,0 +1,16 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "eichendorff/film",
+	"title": "Film",
+	"category": "media",
+	"icon": "video-alt3",
+	"description": "Tytuł i film z pliku albo z YouTube.",
+	"parent": [ "eichendorff/video-grid" ],
+	"textdomain": "eichendorff",
+	"supports": {
+		"html": false,
+		"reusable": false
+	},
+	"editorScript": "file:./index.js"
+}
