@@ -87,10 +87,14 @@ function eichendorff_event_date_binding( array $source_args, WP_Block $block_ins
 }
 
 /**
- * Adds the date field to the event edit screen.
+ * Adds the date field to the event edit screen and removes the Custom fields box.
+ *
+ * The event keeps `custom-fields` support, which the REST API needs to expose the date;
+ * editors set the date in its own box, so the raw meta list is not shown.
  */
 function eichendorff_add_event_date_box(): void {
 	add_meta_box( 'eichendorff-event-date', __( 'Data wydarzenia', 'eichendorff' ), 'eichendorff_render_event_date_box', 'calendar_event', 'side', 'high' );
+	remove_meta_box( 'postcustom', 'calendar_event', 'normal' );
 }
 add_action( 'add_meta_boxes_calendar_event', 'eichendorff_add_event_date_box' );
 
