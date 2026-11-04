@@ -72,8 +72,9 @@ function eichendorff_media_add( string $tmp, string $name, int $post_id, array $
  *
  * @param string $url     File address.
  * @param int    $post_id Post a new attachment belongs to.
+ * @param string $title   Title of a new attachment; the file name when empty.
  */
-function eichendorff_media_from_url( string $url, int $post_id ): int {
+function eichendorff_media_from_url( string $url, int $post_id, string $title = '' ): int {
 	$tmp = download_url( $url, 300 );
 
 	if ( is_wp_error( $tmp ) ) {
@@ -91,5 +92,5 @@ function eichendorff_media_from_url( string $url, int $post_id ): int {
 
 	$name = rawurldecode( wp_basename( (string) wp_parse_url( $url, PHP_URL_PATH ) ) );
 
-	return eichendorff_media_add( $tmp, $name, $post_id, array( 'post_title' => pathinfo( $name, PATHINFO_FILENAME ) ), $sha256 );
+	return eichendorff_media_add( $tmp, $name, $post_id, array( 'post_title' => $title ? $title : pathinfo( $name, PATHINFO_FILENAME ) ), $sha256 );
 }

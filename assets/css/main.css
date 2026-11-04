@@ -1071,6 +1071,11 @@ img {
 	margin-inline: 0;
 }
 
+/* Elementor tables keep a 15px bottom margin inside their widget. */
+.page-content > .wp-block-table + * {
+	margin-block-start: calc(1rem + 15px);
+}
+
 .page-content .wp-block-table table {
 	border-collapse: collapse;
 	font-size: 0.9em;
@@ -1142,6 +1147,51 @@ img {
 	width: 8px;
 	height: 8px;
 	background-color: var(--square-color);
+}
+
+/* Elementor's gallery grid: 4 / 2 / 1 columns of 3:2 crops, 10px apart. The core rule uses an ID selector. */
+.wp-block-gallery.is-style-grid.has-nested-images {
+	display: grid;
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	gap: 10px;
+}
+
+.wp-block-gallery.is-style-grid.has-nested-images figure.wp-block-image:not(#individual-image) {
+	width: auto;
+	margin: 0;
+	aspect-ratio: 3 / 2;
+}
+
+.wp-block-gallery.is-style-grid.has-nested-images figure.wp-block-image img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+/* Elementor's gallery script switches below 1024px and below 767px, one pixel later than the CSS breakpoints. */
+@media (max-width: 1023px) {
+	.wp-block-gallery.is-style-grid.has-nested-images {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}
+
+@media (max-width: 766px) {
+	.wp-block-gallery.is-style-grid.has-nested-images {
+		grid-template-columns: minmax(0, 1fr);
+	}
+}
+
+/* The lightbox takes its colours from inline styles of the site colours, hence !important. */
+.wp-lightbox-overlay .scrim {
+	background-color: rgba(0, 0, 0, 0.8) !important;
+}
+
+.wp-lightbox-overlay :is(.wp-lightbox-close-button, .wp-lightbox-navigation-button-prev, .wp-lightbox-navigation-button-next) {
+	color: rgba(237, 237, 237, 0.9) !important;
+}
+
+.wp-lightbox-overlay :is(.wp-lightbox-close-button, .wp-lightbox-navigation-button-prev, .wp-lightbox-navigation-button-next) svg {
+	fill: currentcolor;
 }
 
 .site-columns .wp-block-query-pagination {

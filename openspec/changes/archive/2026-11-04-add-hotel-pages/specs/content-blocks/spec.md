@@ -3,7 +3,7 @@
 ## ADDED Requirements
 
 ### Requirement: Siatka galerii
-Blok Galeria SHALL mieć styl `Siatka` z produkcji: 4 kolumny powyżej 1024 px, 2 kolumny od 768 do 1024 px i 1 kolumna do 767 px, zdjęcia w kadrze 3:2 i odstęp 10 px.
+Blok Galeria SHALL mieć styl `Siatka` z produkcji: 4 kolumny od 1024 px, 2 kolumny od 767 do 1023 px i 1 kolumna do 766 px, tak jak przełącza je skrypt galerii na produkcji, zdjęcia w kadrze 3:2 i odstęp 10 px.
 
 #### Scenario: Desktop
 - **WHEN** szerokość ekranu wynosi 1440 px

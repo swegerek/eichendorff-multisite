@@ -136,7 +136,8 @@ function eichendorff_import_inline( string $html ): string {
 		static fn( array $m ): string => 'href="' . esc_url( home_url( $m[1] ) ) . '"',
 		$html
 	);
-	$html = preg_replace( '#^(\s|&nbsp;|\x{00A0}|<br\s*/?>)+|(\s|&nbsp;|\x{00A0}|<br\s*/?>)+$#u', '', $html );
+	// Non-breaking spaces stay: on production they glue words together and change where lines wrap.
+	$html = preg_replace( '#^([ \t\r\n]|<br\s*/?>)+|([ \t\r\n]|<br\s*/?>)+$#', '', $html );
 
 	return $html;
 }
@@ -384,6 +385,46 @@ function eichendorff_import_table( DOMElement $table ): string {
 }
 
 /**
+ * Turns a gallery widget into a Gallery block with the Grid style and images that open in the lightbox.
+ *
+ * The full files from production go to the media library; the grid shows the medium_large size.
+ *
+ * @param DOMElement $widget Widget element.
+ * @param string     $page   Page path, for error messages.
+ */
+function eichendorff_import_gallery( DOMElement $widget, string $page ): string {
+	$images = array();
+
+	foreach ( ( new DOMXPath( $widget->ownerDocument ) )->query( './/a[contains(@class, "e-gallery-item")]', $widget ) as $item ) {
+		$id = eichendorff_media_from_url( $item->getAttribute( 'href' ), 0, $item->getAttribute( 'data-elementor-lightbox-title' ) );
+
+		if ( ! $id ) {
+			throw new RuntimeException( "$page: nie udało się pobrać zdjęcia {$item->getAttribute( 'href' )}." );
+		}
+
+		$attrs    = array(
+			'lightbox'        => array( 'enabled' => true ),
+			'id'              => $id,
+			'sizeSlug'        => 'medium_large',
+			'linkDestination' => 'none',
+		);
+		$src      = esc_url( wp_get_attachment_image_url( $id, 'medium_large' ) );
+		$alt      = esc_attr( get_post_meta( $id, '_wp_attachment_image_alt', true ) );
+		$images[] = eichendorff_import_block( 'image', $attrs, "<figure class=\"wp-block-image size-medium_large\"><img src=\"$src\" alt=\"$alt\" class=\"wp-image-$id\"/></figure>" );
+	}
+
+	return eichendorff_import_block(
+		'gallery',
+		array(
+			'linkTo'    => 'none',
+			'sizeSlug'  => 'medium_large',
+			'className' => 'is-style-grid',
+		),
+		'<figure class="wp-block-gallery has-nested-images columns-default is-cropped is-style-grid">' . implode( "\n\n", $images ) . '</figure>'
+	);
+}
+
+/**
  * Turns one Elementor widget into blocks.
  *
  * @param DOMElement $widget Widget element.
@@ -415,6 +456,9 @@ function eichendorff_import_widget( DOMElement $widget, string $page ): array {
 
 		case 'nested-accordion':
 			return array( eichendorff_import_accordion( $widget, $page ) );
+
+		case 'gallery':
+			return array( eichendorff_import_gallery( $widget, $page ) );
 
 		case 'html':
 			$tables = $xpath->query( './/table', $widget );

@@ -34,6 +34,14 @@ function eichendorff_setup(): void {
 			'label' => __( 'Kwadraty w kolumnach', 'eichendorff' ),
 		)
 	);
+
+	register_block_style(
+		'core/gallery',
+		array(
+			'name'  => 'grid',
+			'label' => __( 'Siatka', 'eichendorff' ),
+		)
+	);
 }
 add_action( 'after_setup_theme', 'eichendorff_setup' );
 
@@ -79,6 +87,41 @@ function eichendorff_enqueue_editor_assets(): void {
 	);
 }
 add_action( 'enqueue_block_editor_assets', 'eichendorff_enqueue_editor_assets' );
+
+/**
+ * Tells the browser how wide the images of a grid gallery are, so it loads small files.
+ *
+ * Images in the grid are 1/4 of the content column, 1/2 below 1024px and full width below 767px.
+ *
+ * @param string $block_content Rendered block.
+ * @param array  $block         Parsed block.
+ */
+function eichendorff_grid_gallery_sizes( string $block_content, array $block ): string {
+	if ( ! str_contains( $block['attrs']['className'] ?? '', 'is-style-grid' ) ) {
+		return $block_content;
+	}
+
+	$tags = new WP_HTML_Tag_Processor( $block_content );
+
+	while ( $tags->next_tag( 'img' ) ) {
+		$tags->set_attribute( 'sizes', '(max-width: 766px) calc(100vw - 32px), (max-width: 1023px) calc(50vw - 21px), (max-width: 1024px) 237px, 181px' );
+	}
+
+	return $tags->get_updated_html();
+}
+add_filter( 'render_block_core/gallery', 'eichendorff_grid_gallery_sizes', 10, 2 );
+
+/**
+ * Keeps `sizes="auto"` off grid gallery images.
+ *
+ * Browsers without `sizes="auto"` treat the whole list as invalid and load files for the full viewport width.
+ *
+ * @param string $image Image tag.
+ */
+function eichendorff_grid_gallery_no_auto_sizes( string $image ): string {
+	return str_replace( 'sizes="auto, (max-width: 766px) calc(100vw - 32px)', 'sizes="(max-width: 766px) calc(100vw - 32px)', $image );
+}
+add_filter( 'wp_content_img_tag', 'eichendorff_grid_gallery_no_auto_sizes' );
 
 /**
  * Shows the whole hand-written excerpt with its formatting.
