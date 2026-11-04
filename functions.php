@@ -52,33 +52,47 @@ add_action( 'enqueue_block_editor_assets', 'eichendorff_enqueue_editor_assets' )
  * Shows the whole hand-written excerpt with its formatting.
  *
  * The block trims excerpts to 55 words, strips tags and wraps them in a paragraph.
+ * With the `is-hand-written` class the block shows nothing when there is no hand-written excerpt,
+ * so a post does not repeat the start of its content.
  *
  * @param string   $block_content Rendered block.
  * @param array    $block         Parsed block.
  * @param WP_Block $instance      Block instance.
  */
 function eichendorff_full_excerpt( string $block_content, array $block, WP_Block $instance ): string {
-	$excerpt = get_post_field( 'post_excerpt', $instance->context['postId'] ?? 0 );
+	$excerpt   = get_post_field( 'post_excerpt', $instance->context['postId'] ?? 0 );
+	$classname = $block['attrs']['className'] ?? '';
 
 	if ( ! $excerpt ) {
-		return $block_content;
+		return str_contains( $classname, 'is-hand-written' ) ? '' : $block_content;
 	}
 
-	$classes = trim( 'wp-block-post-excerpt ' . ( $block['attrs']['className'] ?? '' ) );
+	$classes = trim( 'wp-block-post-excerpt ' . $classname );
 
 	return sprintf( '<div class="%s">%s</div>', esc_attr( $classes ), wpautop( wp_kses_post( $excerpt ) ) );
 }
 add_filter( 'render_block_core/post-excerpt', 'eichendorff_full_excerpt', 10, 3 );
 
 /**
- * Keeps the production label of the first breadcrumb.
+ * Keeps the production breadcrumbs: `Home` only on the home page, with the production label,
+ * and only the title on a post.
  *
  * @param array $items Breadcrumb items.
  */
 function eichendorff_breadcrumb_home_label( array $items ): array {
-	if ( $items ) {
-		$items[0]['label'] = 'Home';
+	if ( ! $items ) {
+		return $items;
 	}
+
+	if ( is_singular( 'post' ) ) {
+		return array_slice( $items, -1 );
+	}
+
+	if ( ! is_front_page() && ! is_home() ) {
+		return array_slice( $items, 1 );
+	}
+
+	$items[0]['label'] = 'Home';
 
 	return $items;
 }

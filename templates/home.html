@@ -4,15 +4,7 @@
 <main class="wp-block-group">
 	<!-- wp:pattern {"slug":"eichendorff/home-slider"} /-->
 
-	<!-- wp:group {"className":"site-breadcrumbs","layout":{"type":"default"}} -->
-	<div class="wp-block-group site-breadcrumbs">
-		<!-- wp:paragraph -->
-		<p>Jesteś tutaj:</p>
-		<!-- /wp:paragraph -->
-
-		<!-- wp:breadcrumbs {"showOnHomePage":true} /-->
-	</div>
-	<!-- /wp:group -->
+	<!-- wp:template-part {"slug":"breadcrumbs","area":"uncategorized"} /-->
 
 	<!-- wp:group {"className":"site-columns","layout":{"type":"default"}} -->
 	<div class="wp-block-group site-columns">
@@ -25,42 +17,7 @@
 			<!-- wp:query {"queryId":0,"query":{"inherit":true},"layout":{"type":"default"}} -->
 			<div class="wp-block-query">
 				<!-- wp:post-template {"className":"news-list","layout":{"type":"default"}} -->
-					<!-- wp:group {"className":"news-card","layout":{"type":"default"}} -->
-					<div class="wp-block-group news-card">
-						<!-- wp:group {"className":"date-badge","layout":{"type":"default"}} -->
-						<div class="wp-block-group date-badge">
-							<!-- wp:post-date {"format":"M","className":"date-badge__month"} /-->
-							<!-- wp:post-date {"format":"d","className":"date-badge__day"} /-->
-						</div>
-						<!-- /wp:group -->
-
-						<!-- wp:group {"className":"news-card__body","layout":{"type":"default"}} -->
-						<div class="wp-block-group news-card__body">
-							<!-- wp:post-title {"level":3,"isLink":true,"className":"news-card__title"} /-->
-
-							<!-- wp:group {"className":"news-card__meta","layout":{"type":"default"}} -->
-							<div class="wp-block-group news-card__meta">
-								<!-- wp:post-date {"format":"j F Y","className":"is-date"} /-->
-								<!-- wp:post-date {"format":"H:i","className":"is-time"} /-->
-							</div>
-							<!-- /wp:group -->
-
-							<!-- wp:group {"className":"news-card__content","layout":{"type":"default"}} -->
-							<div class="wp-block-group news-card__content">
-								<!-- wp:group {"className":"news-card__text","layout":{"type":"default"}} -->
-								<div class="wp-block-group news-card__text">
-									<!-- wp:post-excerpt /-->
-									<!-- wp:read-more {"content":"Czytaj więcej"} /-->
-								</div>
-								<!-- /wp:group -->
-
-								<!-- wp:post-featured-image {"sizeSlug":"eichendorff-card"} /-->
-							</div>
-							<!-- /wp:group -->
-						</div>
-						<!-- /wp:group -->
-					</div>
-					<!-- /wp:group -->
+					<!-- wp:pattern {"slug":"eichendorff/news-card"} /-->
 				<!-- /wp:post-template -->
 
 				<!-- wp:query-pagination {"layout":{"type":"flex","justifyContent":"center"}} -->

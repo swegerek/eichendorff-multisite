@@ -1,0 +1,44 @@
+<!-- wp:template-part {"slug":"header","area":"header","tagName":"header"} /-->
+
+<!-- wp:group {"tagName":"main","layout":{"type":"default"}} -->
+<main class="wp-block-group">
+	<!-- wp:template-part {"slug":"breadcrumbs","area":"uncategorized"} /-->
+
+	<!-- wp:group {"className":"site-columns","layout":{"type":"default"}} -->
+	<div class="wp-block-group site-columns">
+		<!-- wp:group {"className":"site-columns__main single-post","layout":{"type":"default"}} -->
+		<div class="wp-block-group site-columns__main single-post">
+			<!-- wp:post-title {"level":1,"className":"single-post__title","fontFamily":"inter"} /-->
+
+			<!-- wp:pattern {"slug":"eichendorff/post-meta"} /-->
+
+			<!-- wp:group {"className":"news-card__content single-post__intro","layout":{"type":"default"}} -->
+			<div class="wp-block-group news-card__content single-post__intro">
+				<!-- wp:group {"className":"news-card__text","layout":{"type":"default"}} -->
+				<div class="wp-block-group news-card__text">
+					<!-- wp:post-excerpt {"className":"is-hand-written"} /-->
+				</div>
+				<!-- /wp:group -->
+
+				<!-- wp:post-featured-image {"sizeSlug":"eichendorff-card"} /-->
+			</div>
+			<!-- /wp:group -->
+
+			<!-- wp:post-content {"className":"single-post__content","layout":{"type":"default"}} /-->
+
+			<!-- wp:group {"className":"single-post__nav","layout":{"type":"default"}} -->
+			<div class="wp-block-group single-post__nav">
+				<!-- wp:post-navigation-link {"type":"previous","label":"Poprzedni","showTitle":true,"linkLabel":true} /-->
+				<!-- wp:post-navigation-link {"label":"Następny","showTitle":true,"linkLabel":true} /-->
+			</div>
+			<!-- /wp:group -->
+		</div>
+		<!-- /wp:group -->
+
+		<!-- wp:template-part {"slug":"sidebar","area":"uncategorized","tagName":"aside","className":"site-columns__sidebar"} /-->
+	</div>
+	<!-- /wp:group -->
+</main>
+<!-- /wp:group -->
+
+<!-- wp:template-part {"slug":"footer","area":"footer","tagName":"footer"} /-->
