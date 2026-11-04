@@ -67,8 +67,8 @@ defined( 'ABSPATH' ) || exit;
 	<h4 class="wp-block-heading sidebar-section__title"><?php esc_html_e( 'Partnerzy', 'eichendorff' ); ?></h4>
 	<!-- /wp:heading -->
 
-	<!-- wp:list {"className":"partner-list"} -->
-	<ul class="wp-block-list partner-list">
+	<!-- wp:list {"className":"is-style-square partner-list"} -->
+	<ul class="wp-block-list is-style-square partner-list">
 		<!-- wp:list-item -->
 		<li><a href="https://spgrzegorzowice.pl/">Szkoła Podstawowa w Grzegorzowicach</a></li>
 		<!-- /wp:list-item -->

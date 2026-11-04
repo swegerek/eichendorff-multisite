@@ -948,6 +948,69 @@ img {
 	white-space: nowrap;
 }
 
+.page-content {
+	color: var(--wp--preset--color--ink);
+	font-family: var(--wp--preset--font-family--inter);
+	font-size: 0.875rem;
+	line-height: 1.5;
+}
+
+/* Blocks follow each other like Elementor widgets: 16px apart, paragraphs of one text 14.4px apart. */
+.page-content > * {
+	margin-block: 0;
+}
+
+.page-content > * + * {
+	margin-block-start: 1rem;
+}
+
+.page-content > p + p {
+	margin-block-start: 0.9rem;
+}
+
+.page-content :is(h1, h2, h3, h4, h5, h6) {
+	font-size: 1rem;
+	font-weight: 600;
+	line-height: 1.25;
+}
+
+.page-content h1 {
+	font-size: 1.5rem;
+	font-weight: 700;
+}
+
+.page-content > .wp-block-separator {
+	margin-block: calc(1rem + 15px);
+	border: 0;
+	border-top: 1px solid #000;
+	opacity: 1;
+}
+
+.wp-block-list.is-style-square {
+	--square-color: var(--wp--preset--color--bark);
+	padding: 0;
+	list-style: none;
+}
+
+.wp-block-list.is-style-square li {
+	position: relative;
+	padding-inline-start: 15px;
+}
+
+.wp-block-list.is-style-square li + li {
+	margin-top: 8px;
+}
+
+.wp-block-list.is-style-square li::before {
+	content: "";
+	position: absolute;
+	top: 6px;
+	left: 1px;
+	width: 8px;
+	height: 8px;
+	background-color: var(--square-color);
+}
+
 .site-columns .wp-block-query-pagination {
 	gap: 20px;
 	margin-top: 25px;
@@ -1075,10 +1138,8 @@ img {
 	color: var(--wp--preset--color--white);
 }
 
-.partner-list {
-	display: flex;
-	flex-direction: column;
-	gap: 0.5rem;
+.wp-block-list.partner-list {
+	--square-color: #653724;
 	margin: 0;
 	padding: 0.5rem;
 	background-color: rgba(255, 255, 255, 0.8);
@@ -1086,22 +1147,10 @@ img {
 	font-family: var(--wp--preset--font-family--inter);
 	font-size: 0.875rem;
 	line-height: 1.5;
-	list-style: none;
 }
 
-.partner-list li {
-	position: relative;
-	padding-inline-start: 15px;
-}
-
-.partner-list li::before {
-	content: "";
-	position: absolute;
+.wp-block-list.partner-list li::before {
 	top: 6.5px;
-	left: 1px;
-	width: 8px;
-	height: 8px;
-	background-color: #653724;
 }
 
 .partner-list a {

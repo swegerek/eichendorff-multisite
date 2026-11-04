@@ -18,8 +18,32 @@ require_once get_theme_file_path( 'inc/events.php' );
 function eichendorff_setup(): void {
 	add_editor_style( 'assets/css/main.css' );
 	add_image_size( 'eichendorff-card', 480, 400, true );
+
+	register_block_style(
+		'core/list',
+		array(
+			'name'  => 'square',
+			'label' => __( 'Kwadraty', 'eichendorff' ),
+		)
+	);
 }
 add_action( 'after_setup_theme', 'eichendorff_setup' );
+
+/**
+ * Keeps the characters editors typed in post and page content, as Elementor showed them on production.
+ *
+ * Block themes texturize the whole rendered template, so the content block renders as `article`
+ * and that element is excluded here.
+ *
+ * @param string[] $tags Elements whose text is not texturized.
+ */
+function eichendorff_no_texturize_content( array $tags ): array {
+	$tags[] = 'article';
+
+	return $tags;
+}
+add_filter( 'no_texturize_tags', 'eichendorff_no_texturize_content' );
+remove_filter( 'the_content', 'wptexturize' );
 
 /**
  * Enqueues the theme assets.

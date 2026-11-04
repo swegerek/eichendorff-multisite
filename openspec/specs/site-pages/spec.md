@@ -1,10 +1,9 @@
-# Spec Delta
+# site-pages Specification
 
 ## Purpose
-
 Określa podstrony serwisu: ich szablon, adresy, strukturę nagłówków oraz to, że treść każdej podstrony jest zgodna z produkcją i redagowana blokami.
 
-## ADDED Requirements
+## Requirements
 
 ### Requirement: Adresy podstron
 Każda przeniesiona podstrona SHALL być dostępna pod tym samym adresem co na produkcji, z tą samą stroną nadrzędną.
@@ -29,7 +28,11 @@ Strony `fundacja`, `fundacja/zarzad`, `fundacja/rada-kuratorow`, `fundacja/rada-
 - **THEN** oba teksty są takie same
 
 ### Requirement: Jeden nagłówek główny
-Każda podstrona SHALL mieć dokładnie jeden `h1` w treści, taki jak na produkcji, a strona bez `h1` na produkcji SHALL dostać `h1` z tytułem strony.
+Każda podstrona SHALL mieć dokładnie jeden `h1` w treści: pierwszy `h1` z produkcji. Kolejne `h1` z produkcji SHALL być nagłówkami `h3` o tym samym wyglądzie, a strona bez `h1` na produkcji SHALL dostać `h1` z tytułem strony.
+
+#### Scenario: Kolejne nagłówki h1 na produkcji
+- **WHEN** odwiedzający otwiera `/fundacja/rys-historyczny/`, która na produkcji ma 26 elementów `h1`
+- **THEN** strona ma jeden `h1` `Rys historyczny`, a nagłówki takie jak `Gmina Rudnik` są `h3` o rozmiarze 16 px i grubości 600
 
 #### Scenario: Nagłówek inny niż tytuł
 - **WHEN** podstrona ma na produkcji `h1` różny od tytułu strony
