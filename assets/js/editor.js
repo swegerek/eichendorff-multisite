@@ -50,4 +50,21 @@
 			'withFullExcerpt'
 		)
 	);
+
+	// The post editor shows only the content, without the template, so the Landing layout
+	// gets a class on the editor canvas; the theme CSS gives the content its spacing and width.
+	const syncLandingClass = () => {
+		const iframe = document.querySelector( 'iframe[name="editor-canvas"]' );
+		const body = iframe?.contentDocument?.body;
+		const isLanding = 'page-landing' === wp.data.select( 'core/editor' )?.getEditedPostAttribute?.( 'template' );
+
+		if ( iframe && ! iframe.dataset.eichendorffLanding ) {
+			iframe.dataset.eichendorffLanding = '1';
+			iframe.addEventListener( 'load', syncLandingClass );
+		}
+
+		body?.classList.toggle( 'is-landing-template', isLanding );
+	};
+
+	wp.data.subscribe( syncLandingClass );
 }( window.wp ) );

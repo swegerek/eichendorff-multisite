@@ -1530,9 +1530,11 @@ img {
 
 /*
  * Landing template: blocks follow each other 2rem apart in a column up to 1140px wide,
- * like Elementor sections with 1rem padding.
+ * like Elementor sections with 1rem padding. In the post editor the canvas body gets
+ * `is-landing-template` instead, as the editor shows the content without the template.
  */
-.landing-content {
+.landing-content,
+body.is-landing-template .is-root-container {
 	display: flex;
 	flex-direction: column;
 	gap: 2rem;
@@ -1543,7 +1545,8 @@ img {
 	line-height: 1.5;
 }
 
-.landing-content > * {
+.landing-content > *,
+body.is-landing-template .is-root-container > * {
 	box-sizing: border-box;
 	width: 100%;
 	max-width: 1140px;
