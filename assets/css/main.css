@@ -1527,3 +1527,465 @@ img {
 	.wp-block-tab-list button:nth-child(12) { order: 23; }
 	.wp-block-tab-panel:nth-child(12) { order: 24; }
 }
+
+/*
+ * Landing template: blocks follow each other 2rem apart in a column up to 1140px wide,
+ * like Elementor sections with 1rem padding.
+ */
+.landing-content {
+	display: flex;
+	flex-direction: column;
+	gap: 2rem;
+	padding: 1rem;
+	color: var(--wp--preset--color--ink);
+	font-family: var(--wp--preset--font-family--inter);
+	font-size: 0.875rem;
+	line-height: 1.5;
+}
+
+.landing-content > * {
+	box-sizing: border-box;
+	width: 100%;
+	max-width: 1140px;
+	margin: 0 auto;
+}
+
+/* Outline icons: the icon registry keeps no stroke attributes, so the outline comes from here. */
+svg.is-stroke,
+.wp-block-icon svg.is-stroke {
+	fill: none;
+	stroke: currentColor;
+	stroke-width: 2;
+	stroke-linecap: round;
+	stroke-linejoin: round;
+}
+
+/* Page header: Cover with rounded corners and a shadow; icon in a circle, title and subtitle centred. */
+.wp-block-cover.is-style-hero {
+	min-height: 0;
+	padding: 2rem;
+	overflow: hidden;
+	border-radius: 1rem;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.16);
+}
+
+.wp-block-cover.is-style-hero .wp-block-cover__inner-container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 100%;
+	color: var(--wp--preset--color--ink);
+	text-align: center;
+}
+
+.wp-block-cover.is-style-hero .wp-block-cover__inner-container > * {
+	max-width: 800px;
+	margin: 0;
+}
+
+.wp-block-cover.is-style-hero .wp-block-cover__inner-container > * + * {
+	margin-top: 1rem;
+}
+
+.wp-block-cover.is-style-hero .wp-block-cover__inner-container > p + p {
+	margin-top: 0.9rem;
+}
+
+.wp-block-cover.is-style-hero .wp-block-cover__inner-container > p:last-child {
+	margin-bottom: 0.9rem;
+}
+
+.wp-block-cover.is-style-hero .wp-block-icon {
+	display: flex;
+	flex: none;
+	align-items: center;
+	justify-content: center;
+	width: 5rem;
+	height: 5rem;
+	border-radius: 50%;
+	background-color: rgba(200, 185, 160, 0.25);
+	color: #653724;
+}
+
+.wp-block-cover.is-style-hero .wp-block-icon svg {
+	width: 2rem;
+	height: 2rem;
+}
+
+.wp-block-cover.is-style-hero :is(h1, h2) {
+	color: #653724;
+	font-family: var(--wp--preset--font-family--lora);
+	font-size: 1.5rem;
+	font-weight: 700;
+	line-height: 1.25;
+}
+
+/* With a photo: light text with a shadow. */
+.wp-block-cover.is-style-hero:has(> .wp-block-cover__image-background) .wp-block-icon {
+	background-color: rgba(200, 185, 160, 0.44);
+	color: #fff;
+}
+
+.wp-block-cover.is-style-hero:has(> .wp-block-cover__image-background) :is(h1, h2) {
+	color: #fff;
+	font-size: 2rem;
+	text-shadow: 0 0 10px rgba(0, 0, 0, 0.98);
+}
+
+.wp-block-cover.is-style-hero:has(> .wp-block-cover__image-background) p {
+	max-width: 600px;
+	color: #fff;
+	font-size: 1.5rem;
+	line-height: 1.5;
+	text-shadow: 0 0 4px #000;
+	text-wrap: balance;
+}
+
+/* Card: white box with a light border, its blocks 1rem apart. */
+.wp-block-group.is-style-card {
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+	padding: 1rem;
+	border: 1px solid var(--wp--preset--color--mist);
+	border-radius: 1rem;
+	background-color: #fff;
+}
+
+.wp-block-group.is-style-card > * {
+	margin: 0;
+}
+
+.wp-block-group.is-style-card > h2 {
+	color: #7b3306;
+	font-family: var(--wp--preset--font-family--lora);
+	font-size: 1.5rem;
+	font-weight: 700;
+	line-height: 1.25;
+	text-align: center;
+}
+
+.wp-block-group.is-style-card > :is(p, .wp-block-image) {
+	text-align: center;
+}
+
+.wp-block-group.is-style-card .wp-block-image img {
+	display: block;
+	max-width: 100%;
+	height: auto;
+	margin-inline: auto;
+}
+
+/* Icon with a short label in one centred row, like a one-item Elementor icon list. */
+.wp-block-group.icon-row {
+	gap: 9px;
+	color: #7b3306;
+	font-size: 1rem;
+	line-height: 1.25;
+}
+
+.wp-block-group.icon-row > * {
+	margin: 0;
+}
+
+.wp-block-group.icon-row .wp-block-icon {
+	color: #653724;
+}
+
+.wp-block-group.icon-row .wp-block-icon svg {
+	width: 1rem;
+	height: 1rem;
+}
+
+.wp-block-group.is-style-card .wp-block-buttons {
+	gap: 1rem;
+}
+
+/* Two columns of equal rows, one column up to 1024px, like the Elementor grid of language sections. */
+.wp-block-group.is-style-two-columns {
+	display: grid;
+	grid-template-rows: repeat(2, 1fr);
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 1rem;
+}
+
+.wp-block-group.is-style-two-columns > * {
+	margin: 0;
+}
+
+@media (max-width: 1024px) {
+	.wp-block-group.is-style-two-columns {
+		grid-template-columns: minmax(0, 1fr);
+	}
+}
+
+/* Language section: card with the flag and the language name over the text. */
+.wp-block-eichendorff-language-section {
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+	padding: 1rem;
+	border: 1px solid var(--wp--preset--color--mist);
+	border-radius: 1rem;
+	background-color: #fff;
+}
+
+.wp-block-eichendorff-language-section__name {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	margin: 0;
+	padding-bottom: 1rem;
+	border-bottom: 1px solid var(--wp--preset--color--mist);
+	color: #7b3306;
+	font-family: var(--wp--preset--font-family--lora);
+	font-size: 1.25rem;
+	font-weight: 700;
+	line-height: 1.25;
+}
+
+.wp-block-eichendorff-language-section__name svg,
+.wp-block-eichendorff-language-section__flag {
+	display: block;
+	flex: none;
+	width: 2rem;
+	height: 2rem;
+}
+
+.wp-block-eichendorff-language-section__text > * {
+	margin: 0 0 0.9rem;
+}
+
+/* Gallery in two columns of 4:3 crops with rounded corners; one column below 768px. */
+.wp-block-gallery.is-style-two-columns.has-nested-images {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 1rem;
+}
+
+.wp-block-gallery.is-style-two-columns.has-nested-images figure.wp-block-image:not(#individual-image) {
+	justify-content: flex-start;
+	width: auto;
+	margin: 0;
+}
+
+.wp-block-gallery.is-style-two-columns.has-nested-images figure.wp-block-image img {
+	width: 100%;
+	height: auto;
+	aspect-ratio: 4 / 3;
+	border-radius: 1rem;
+	object-fit: cover;
+}
+
+@media (max-width: 767px) {
+	.wp-block-gallery.is-style-two-columns.has-nested-images {
+		grid-template-columns: minmax(0, 1fr);
+	}
+}
+
+/* Buttons with an icon: Download and External link before the text, Arrow after it. */
+.wp-block-button:is(.is-style-download, .is-style-external, .is-style-arrow) .wp-block-button__link {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 0.5rem;
+	padding: 12px 24px;
+	border: 1px solid #c8b9a0;
+	border-radius: 3px;
+	background-color: #fff;
+	color: #78350f;
+	font-family: var(--wp--preset--font-family--inter);
+	font-size: 0.875rem;
+	font-weight: 400;
+	line-height: 1.5;
+	text-decoration: none;
+}
+
+.wp-block-button.is-style-download .wp-block-button__link {
+	background-color: rgba(200, 185, 160, 0.1);
+}
+
+.wp-block-button:is(.is-style-download, .is-style-external, .is-style-arrow) .wp-block-button__link:is(:hover, :focus) {
+	background-color: #c8b9a0;
+	color: #fff;
+}
+
+.wp-block-button:is(.is-style-download, .is-style-external) .wp-block-button__link::before,
+.wp-block-button.is-style-arrow .wp-block-button__link::after {
+	content: "";
+	flex: none;
+	width: 0.875rem;
+	height: 0.875rem;
+	background-color: currentColor;
+	mask: var(--button-icon) center / contain no-repeat;
+}
+
+.wp-block-button.is-style-download {
+	--button-icon: url(../icons/download.svg);
+}
+
+.wp-block-button.is-style-external {
+	--button-icon: url(../icons/external-link.svg);
+}
+
+.wp-block-button.is-style-arrow {
+	--button-icon: url(../icons/arrow-right.svg);
+}
+
+.wp-block-button.is-style-arrow .wp-block-button__link::after {
+	width: 0.765625rem;
+}
+
+/* Trail list and trail card. */
+.wp-block-eichendorff-trail-list {
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+}
+
+.wp-block-eichendorff-trail-list > * {
+	margin: 0;
+}
+
+.wp-block-eichendorff-trail-card {
+	display: flex;
+	overflow: hidden;
+	border-radius: 1rem;
+	background-color: #fff;
+	color: var(--wp--preset--color--ink);
+	font-family: var(--wp--preset--font-family--inter);
+}
+
+/* The info takes the full width and the files half of it; both shrink as in the Elementor container. */
+.wp-block-eichendorff-trail-card__info {
+	display: flex;
+	flex: 0 1 100%;
+	flex-wrap: wrap;
+	align-content: flex-start;
+	box-sizing: border-box;
+	padding: 1rem;
+}
+
+.wp-block-eichendorff-trail-card__title {
+	display: flex;
+	flex: 0 0 100%;
+	align-items: center;
+	gap: 1rem;
+	margin-bottom: 1rem;
+}
+
+.wp-block-eichendorff-trail-card__icon {
+	display: flex;
+	flex: none;
+	align-items: center;
+	justify-content: center;
+	width: 3.5rem;
+	height: 3.5rem;
+	border-radius: 4px;
+	background: var(--trail-icon-background);
+	color: var(--trail-icon-color);
+}
+
+.wp-block-eichendorff-trail-card__icon svg {
+	width: 2rem;
+	height: 2rem;
+}
+
+.wp-block-eichendorff-trail-card__icon svg:not(.is-stroke) {
+	fill: currentColor;
+}
+
+.wp-block-eichendorff-trail-card__name {
+	margin: 0;
+	color: #653724;
+	font-family: var(--wp--preset--font-family--lora);
+	font-size: 1.25rem;
+	font-weight: 700;
+	line-height: 1.25;
+}
+
+.wp-block-eichendorff-trail-card__fact {
+	flex: 0 0 50%;
+	box-sizing: border-box;
+	padding-bottom: 1rem;
+}
+
+.wp-block-eichendorff-trail-card__fact--marker {
+	flex-basis: 100%;
+	padding-bottom: 0;
+}
+
+.wp-block-eichendorff-trail-card__label,
+.wp-block-eichendorff-trail-card__value {
+	margin: 0;
+	font-size: 0.875rem;
+	line-height: 1.5;
+}
+
+.wp-block-eichendorff-trail-card__label {
+	font-size: 0.75rem;
+}
+
+.wp-block-eichendorff-trail-card__marker {
+	display: block;
+	width: 14rem;
+	height: 0.375rem;
+	margin-block: 2px;
+	background: repeating-linear-gradient(90deg, var(--trail-marker-color) 0 1.25rem, transparent 1.25rem 2rem);
+}
+
+.wp-block-eichendorff-trail-card.is-marker-long .wp-block-eichendorff-trail-card__marker {
+	background: repeating-linear-gradient(90deg, var(--trail-marker-color) 0 3rem, transparent 3rem 5rem);
+}
+
+.wp-block-eichendorff-trail-card__download {
+	display: flex;
+	flex: 0 1 50%;
+	flex-direction: column;
+	justify-content: center;
+	gap: 4px;
+	box-sizing: border-box;
+	padding: 1rem;
+	background-color: rgba(255, 248, 237, 0.99);
+}
+
+.wp-block-eichendorff-trail-card__download .wp-block-eichendorff-trail-card__label {
+	text-align: center;
+}
+
+.wp-block-eichendorff-trail-card__download .wp-block-button__link {
+	box-sizing: border-box;
+	width: 100%;
+}
+
+@media (max-width: 767px) {
+	.wp-block-eichendorff-trail-card {
+		flex-wrap: wrap;
+	}
+
+	.wp-block-eichendorff-trail-card :is(.wp-block-eichendorff-trail-card__info, .wp-block-eichendorff-trail-card__download, .wp-block-eichendorff-trail-card__fact) {
+		flex-basis: 100%;
+	}
+}
+
+/* Editor: the icon and the marking of a trail card open their settings. */
+.wp-block-eichendorff-trail-card__icon.is-editable {
+	padding: 0;
+	border: 0;
+	cursor: pointer;
+}
+
+/* A transparent button around the marking makes it easier to click; the marking inside stays 6px high. */
+.wp-block-eichendorff-trail-card__marker-toggle.is-editable {
+	display: block;
+	padding: 4px 0;
+	margin-block: -4px;
+	border: 0;
+	background: none;
+	cursor: pointer;
+}
+
+.wp-block-eichendorff-trail-card .is-editable:is(:hover, :focus-visible) {
+	outline: 2px solid var(--wp-admin-theme-color, #3858e9);
+	outline-offset: 2px;
+}

@@ -11,6 +11,7 @@ define( 'EICHENDORFF_VERSION', wp_get_theme( 'eichendorff' )->get( 'Version' ) )
 
 require_once get_theme_file_path( 'inc/german-link.php' );
 require_once get_theme_file_path( 'inc/events.php' );
+require_once get_theme_file_path( 'inc/landing.php' );
 
 /**
  * Registers theme supports.
@@ -54,11 +55,12 @@ function eichendorff_setup(): void {
 add_action( 'after_setup_theme', 'eichendorff_setup' );
 
 /**
- * Registers the theme blocks: Video grid and the Film blocks inside it.
+ * Registers the theme blocks: Video grid with Films, Trail list with Trail cards, and Language section.
  */
 function eichendorff_register_blocks(): void {
-	register_block_type( get_theme_file_path( 'blocks/video-grid' ) );
-	register_block_type( get_theme_file_path( 'blocks/film' ) );
+	foreach ( array( 'video-grid', 'film', 'trail-list', 'trail-card', 'language-section' ) as $block ) {
+		register_block_type( get_theme_file_path( "blocks/$block" ) );
+	}
 }
 add_action( 'init', 'eichendorff_register_blocks' );
 

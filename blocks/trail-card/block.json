@@ -1,0 +1,31 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "eichendorff/trail-card",
+	"title": "Karta szlaku",
+	"category": "media",
+	"icon": "location",
+	"description": "Szlak z trasą, dystansem, oznaczeniem i plikami GPX i KML do pobrania.",
+	"parent": [ "eichendorff/trail-list" ],
+	"textdomain": "eichendorff",
+	"attributes": {
+		"title": { "type": "string", "default": "" },
+		"route": { "type": "string", "default": "" },
+		"distance": { "type": "string", "default": "" },
+		"icon": { "type": "string", "default": "eichendorff/tree-deciduous" },
+		"iconColor": { "type": "string", "default": "#653724" },
+		"iconBackground": { "type": "string", "default": "#C8B9A040" },
+		"markerColor": { "type": "string", "default": "#653724" },
+		"markerStyle": { "type": "string", "enum": [ "short", "long" ], "default": "short" },
+		"gpxId": { "type": "number" },
+		"gpxUrl": { "type": "string", "default": "" },
+		"kmlId": { "type": "number" },
+		"kmlUrl": { "type": "string", "default": "" }
+	},
+	"supports": {
+		"html": false,
+		"reusable": false
+	},
+	"editorScript": "file:./index.js",
+	"render": "file:./render.php"
+}

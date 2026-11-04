@@ -14,6 +14,7 @@
 defined( 'ABSPATH' ) || exit;
 
 require_once __DIR__ . '/lib/media.php';
+require_once __DIR__ . '/lib/import-landing.php';
 
 const EICHENDORFF_SOURCE_SITE = 'https://eichendorff.pl';
 
@@ -160,6 +161,24 @@ function eichendorff_import_paragraph( string $html, string $align = '' ): strin
 	}
 
 	return eichendorff_import_block( 'paragraph', array(), "<p>$html</p>" );
+}
+
+/**
+ * Sets a paragraph in the 12px Extra small size.
+ *
+ * @param string $block Paragraph block markup.
+ */
+function eichendorff_import_small_text( string $block ): string {
+	return preg_replace_callback(
+		'/^<!-- wp:paragraph(?: (\{.*?\}))? -->\n<p( class="([^"]*)")?/',
+		static function ( array $m ): string {
+			$attrs = array( 'fontSize' => 'x-small' ) + ( json_decode( $m[1] ?? '', true ) ?: array() );
+			$class = trim( ( $m[3] ?? '' ) . ' has-x-small-font-size' );
+
+			return '<!-- wp:paragraph ' . wp_json_encode( $attrs, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES ) . " -->\n<p class=\"$class\"";
+		},
+		$block
+	);
 }
 
 /**
@@ -631,6 +650,12 @@ function eichendorff_import_widget( DOMElement $widget, string $page ): array {
 			$style = $level > 1 && in_array( eichendorff_import_element_id( $widget ), $GLOBALS['eichendorff_title_headings'] ?? array(), true ) ? 'is-style-title' : '';
 			return array( eichendorff_import_heading( $level, eichendorff_import_inner_html( $title ), $style ) );
 
+		case 'icon':
+			return array( eichendorff_import_void_block( 'icon', array( 'icon' => eichendorff_import_icon_name( $xpath->query( './/svg', $widget )->item( 0 ), $page ) ) ) );
+
+		case 'image':
+			return array( eichendorff_import_image( $widget, $page ) );
+
 		case 'video':
 			return array( eichendorff_import_video( $widget, $page ) );
 
@@ -638,9 +663,20 @@ function eichendorff_import_widget( DOMElement $widget, string $page ): array {
 			return array( eichendorff_import_map( $widget, $page ) );
 
 		case 'text-editor':
-			return eichendorff_import_text_editor( $widget, $page );
+			$blocks = eichendorff_import_text_editor( $widget, $page );
+
+			// On landing pages a text can be set in the 12px size.
+			if ( in_array( eichendorff_import_element_id( $widget ), $GLOBALS['eichendorff_small_texts'] ?? array(), true ) ) {
+				$blocks = array_map( 'eichendorff_import_small_text', $blocks );
+			}
+
+			return $blocks;
 
 		case 'icon-list':
+			if ( ! empty( $GLOBALS['eichendorff_landing'] ) ) {
+				return array( eichendorff_import_icon_row( $widget, $page ) );
+			}
+
 			$list  = $xpath->query( './/ul', $widget )->item( 0 );
 			$style = in_array( eichendorff_import_element_id( $widget ), $GLOBALS['eichendorff_column_lists'] ?? array(), true ) ? 'is-style-square-columns' : 'is-style-square';
 			return array( eichendorff_import_list( $list, array( 'className' => $style ), 'eichendorff_import_icon_item_text' ) );
@@ -665,21 +701,28 @@ function eichendorff_import_widget( DOMElement $widget, string $page ): array {
 function eichendorff_import_widgets( DOMElement $root, string $page ): array {
 	$is_widget = static fn( DOMNode $node ): bool => $node instanceof DOMElement && ( $node->hasAttribute( 'data-widget_type' ) || 'widget' === $node->getAttribute( 'data-e-type' ) );
 	$is_grid   = static fn( DOMNode $node ): bool => $node instanceof DOMElement && 'container' === $node->getAttribute( 'data-e-type' ) && in_array( 'e-grid', explode( ' ', $node->getAttribute( 'class' ) ), true );
+	$is_row    = static fn( DOMNode $node ): bool => $node instanceof DOMElement && 'container' === $node->getAttribute( 'data-e-type' ) && eichendorff_import_children( $node ) && ! array_filter( eichendorff_import_children( $node ), static fn( DOMElement $child ): bool => 'button.default' !== $child->getAttribute( 'data-widget_type' ) );
 	$blocks    = array();
 	$keeps_gap = false;
 
 	foreach ( iterator_to_array( $root->getElementsByTagName( '*' ) ) as $widget ) {
-		if ( ! $is_widget( $widget ) && ! $is_grid( $widget ) ) {
+		if ( ! $is_widget( $widget ) && ! $is_grid( $widget ) && ! $is_row( $widget ) ) {
 			continue;
 		}
 
 		for ( $parent = $widget->parentNode; $parent && $parent !== $root; $parent = $parent->parentNode ) {
-			if ( $is_widget( $parent ) || $is_grid( $parent ) ) {
+			if ( $is_widget( $parent ) || $is_grid( $parent ) || $is_row( $parent ) ) {
 				continue 2;
 			}
 		}
 
-		$widget_blocks = $is_grid( $widget ) ? array( eichendorff_import_grid( $widget, $page ) ) : eichendorff_import_widget( $widget, $page );
+		if ( $is_row( $widget ) ) {
+			$widget_blocks = array( eichendorff_import_buttons( $widget, $page ) );
+		} elseif ( $is_grid( $widget ) ) {
+			$widget_blocks = array( eichendorff_import_grid( $widget, $page ) );
+		} else {
+			$widget_blocks = eichendorff_import_widget( $widget, $page );
+		}
 
 		// A text without the `f-text-last-mb-0` class keeps the 14.4px margin of its last paragraph above the next widget.
 		if ( $widget_blocks && $keeps_gap && eichendorff_import_is_paragraph( end( $blocks ) ) ) {
@@ -814,6 +857,15 @@ function eichendorff_import_content( array $source, string $page ): string {
 
 	$GLOBALS['eichendorff_column_lists']   = eichendorff_import_column_lists( $source['id'] );
 	$GLOBALS['eichendorff_title_headings'] = eichendorff_import_title_headings( $source['id'] );
+	$GLOBALS['eichendorff_landing']        = in_array( $page, EICHENDORFF_LANDING_PAGES, true );
+	$GLOBALS['eichendorff_small_texts']    = array();
+
+	if ( $GLOBALS['eichendorff_landing'] ) {
+		preg_match_all( '/elementor-element-([0-9a-f]+)\{[^}]*font-size:0\.75rem/', eichendorff_import_page_css( $source['id'] ), $m );
+		$GLOBALS['eichendorff_small_texts'] = $m[1];
+
+		return implode( "\n\n", eichendorff_import_landing( $document->documentElement, $source, $page ) );
+	}
 
 	$blocks = eichendorff_import_widgets( $document->documentElement, $page );
 	$has_h1 = false;
@@ -877,6 +929,10 @@ function eichendorff_import_page( string $path, array $pages ): int {
 	}
 
 	update_post_meta( $id, '_eichendorff_source', "pl-page:{$source['id']}" );
+
+	if ( in_array( $path, EICHENDORFF_LANDING_PAGES, true ) ) {
+		update_post_meta( $id, '_wp_page_template', 'page-landing' );
+	}
 	WP_CLI::log( "$path → $id" );
 
 	return $id;

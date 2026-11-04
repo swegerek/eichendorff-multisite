@@ -72,6 +72,7 @@
 				}
 			],
 			"fontSizes": [
+				{ "slug": "x-small", "name": "Bardzo mały", "size": "0.75rem" },
 				{ "slug": "small", "name": "Mały", "size": "0.875rem" },
 				{ "slug": "medium", "name": "Średni", "size": "1rem" },
 				{ "slug": "large", "name": "Duży", "size": "1.25rem" },
@@ -101,6 +102,9 @@
 			}
 		}
 	},
+	"customTemplates": [
+		{ "name": "page-landing", "title": "Landing", "postTypes": [ "page" ] }
+	],
 	"templateParts": [
 		{ "name": "header", "title": "Nagłówek", "area": "header" },
 		{ "name": "footer", "title": "Stopka", "area": "footer" },
