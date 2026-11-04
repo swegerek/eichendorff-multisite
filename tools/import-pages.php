@@ -13,6 +13,8 @@
 
 defined( 'ABSPATH' ) || exit;
 
+require_once __DIR__ . '/lib/media.php';
+
 const EICHENDORFF_SOURCE_SITE = 'https://eichendorff.pl';
 
 /**
@@ -280,6 +282,108 @@ function eichendorff_import_text_editor( DOMElement $widget, string $page ): arr
 }
 
 /**
+ * Returns the trimmed text of the first element matching an XPath query.
+ *
+ * @param string     $query   XPath query relative to the context node.
+ * @param DOMElement $context Context node.
+ */
+function eichendorff_import_text( string $query, DOMElement $context ): string {
+	$node = ( new DOMXPath( $context->ownerDocument ) )->query( $query, $context )->item( 0 );
+
+	return $node ? trim( preg_replace( '/\s+/u', ' ', $node->textContent ) ) : '';
+}
+
+/**
+ * Turns a nested-tabs widget into a Tabs block with one panel per tab.
+ *
+ * @param DOMElement $widget Widget element.
+ * @param string     $page   Page path, for error messages.
+ */
+function eichendorff_import_tabs( DOMElement $widget, string $page ): string {
+	$xpath   = new DOMXPath( $widget->ownerDocument );
+	$buttons = '';
+	$panels  = array();
+
+	foreach ( $xpath->query( './/*[@role="tab"]', $widget ) as $index => $tab ) {
+		$label    = eichendorff_import_text( './/*[contains(@class, "e-n-tab-title-text")]', $tab );
+		$panel    = $xpath->query( './/*[@role="tabpanel"]', $widget )->item( $index );
+		$buttons .= '<button type="button" role="tab">' . esc_html( $label ) . '</button>';
+		$panels[] = eichendorff_import_block( 'tab-panel', array( 'label' => $label ), '<section role="tabpanel" tabindex="0" class="wp-block-tab-panel">' . implode( "\n\n", eichendorff_import_widgets( $panel, $page ) ) . '</section>' );
+	}
+
+	$list = eichendorff_import_block( 'tab-list', array(), "<div role=\"tablist\" class=\"wp-block-tab-list\">$buttons</div>" );
+
+	return "<!-- wp:tabs -->\n<div class=\"wp-block-tabs\">$list\n\n<!-- wp:tab-panels -->\n<div class=\"wp-block-tab-panels\">" . implode( "\n\n", $panels ) . "</div>\n<!-- /wp:tab-panels --></div>\n<!-- /wp:tabs -->";
+}
+
+/**
+ * Turns a nested-accordion widget into an Accordion block with the icon on the left, as on production.
+ *
+ * @param DOMElement $widget Widget element.
+ * @param string     $page   Page path, for error messages.
+ */
+function eichendorff_import_accordion( DOMElement $widget, string $page ): string {
+	$xpath = new DOMXPath( $widget->ownerDocument );
+	$items = array();
+
+	foreach ( $xpath->query( './/details', $widget ) as $details ) {
+		$open    = $details->hasAttribute( 'open' );
+		$attrs   = $open ? array( 'openByDefault' => true ) : array();
+		$title   = esc_html( eichendorff_import_text( './/*[contains(@class, "e-n-accordion-item-title-text")]', $details ) );
+		$region  = $xpath->query( './*[@role="region"]', $details )->item( 0 );
+		$heading = eichendorff_import_block(
+			'accordion-heading',
+			$attrs + array( 'iconPosition' => 'left' ),
+			'<h3 class="wp-block-accordion-heading has-icon has-icon-left"><button type="button" class="wp-block-accordion-heading__toggle"><span class="wp-block-accordion-heading__toggle-icon" aria-hidden="true">+</span><span class="wp-block-accordion-heading__toggle-title">' . $title . '</span></button></h3>'
+		);
+		$panel   = eichendorff_import_block( 'accordion-panel', array(), '<div role="region" class="wp-block-accordion-panel">' . implode( "\n\n", $region ? eichendorff_import_widgets( $region, $page ) : array() ) . '</div>' );
+		$items[] = eichendorff_import_block( 'accordion-item', $attrs, '<div class="wp-block-accordion-item' . ( $open ? ' is-open' : '' ) . "\">$heading\n\n$panel</div>" );
+	}
+
+	return eichendorff_import_block( 'accordion', array( 'iconPosition' => 'left' ), '<div role="group" class="wp-block-accordion">' . implode( "\n\n", $items ) . '</div>' );
+}
+
+/**
+ * Turns the table of an HTML widget into a Table block with the Stripes style.
+ *
+ * @param DOMElement $table Table element.
+ */
+function eichendorff_import_table( DOMElement $table ): string {
+	$xpath    = new DOMXPath( $table->ownerDocument );
+	$sections = '';
+
+	foreach ( array( 'thead', 'tbody' ) as $section ) {
+		$rows = '';
+
+		foreach ( $xpath->query( ".//$section/tr", $table ) as $row ) {
+			$rows .= '<tr>';
+
+			foreach ( $row->childNodes as $cell ) {
+				if ( ! $cell instanceof DOMElement ) {
+					continue;
+				}
+
+				$colspan = $cell->hasAttribute( 'colspan' ) ? ' colspan="' . (int) $cell->getAttribute( 'colspan' ) . '"' : '';
+				$rows   .= "<{$cell->tagName}$colspan>" . eichendorff_import_inline( eichendorff_import_inner_html( $cell ) ) . "</{$cell->tagName}>";
+			}
+
+			$rows .= '</tr>';
+		}
+
+		$sections .= $rows ? "<$section>$rows</$section>" : '';
+	}
+
+	return eichendorff_import_block(
+		'table',
+		array(
+			'hasFixedLayout' => false,
+			'className'      => 'is-style-stripes',
+		),
+		"<figure class=\"wp-block-table is-style-stripes\"><table>$sections</table></figure>"
+	);
+}
+
+/**
  * Turns one Elementor widget into blocks.
  *
  * @param DOMElement $widget Widget element.
@@ -289,7 +393,36 @@ function eichendorff_import_widget( DOMElement $widget, string $page ): array {
 	$type  = strtok( $widget->getAttribute( 'data-widget_type' ), '.' );
 	$xpath = new DOMXPath( $widget->ownerDocument );
 
+	// Atomic Elementor widgets have no widget type; a heading is the element itself.
+	if ( ! $type && preg_match( '/^h([1-6])$/', $widget->tagName, $m ) ) {
+		$attrs = array(
+			'style'    => array( 'typography' => array( 'fontWeight' => '700', 'lineHeight' => '1.2' ) ),
+			'fontSize' => 'heading',
+		);
+
+		if ( '2' !== $m[1] ) {
+			$attrs = array( 'level' => (int) $m[1] ) + $attrs;
+		}
+
+		$html = "<h{$m[1]} class=\"wp-block-heading has-heading-font-size\" style=\"font-weight:700;line-height:1.2\">" . eichendorff_import_inline( eichendorff_import_inner_html( $widget ) ) . "</h{$m[1]}>";
+
+		return array( eichendorff_import_block( 'heading', $attrs, $html ) );
+	}
+
 	switch ( $type ) {
+		case 'nested-tabs':
+			return array( eichendorff_import_tabs( $widget, $page ) );
+
+		case 'nested-accordion':
+			return array( eichendorff_import_accordion( $widget, $page ) );
+
+		case 'html':
+			$tables = $xpath->query( './/table', $widget );
+			if ( 1 === $tables->length && '' === trim( str_replace( $tables->item( 0 )->textContent, '', $widget->textContent ) ) ) {
+				return array( eichendorff_import_table( $tables->item( 0 ) ) );
+			}
+			break;
+
 		case 'heading':
 			$title = $xpath->query( './/*[contains(@class, "elementor-heading-title")]', $widget )->item( 0 );
 			return array( eichendorff_import_heading( (int) substr( $title->tagName, 1 ), eichendorff_import_inner_html( $title ) ) );
@@ -298,14 +431,89 @@ function eichendorff_import_widget( DOMElement $widget, string $page ): array {
 			return eichendorff_import_text_editor( $widget, $page );
 
 		case 'icon-list':
-			$list = $xpath->query( './/ul', $widget )->item( 0 );
-			return array( eichendorff_import_list( $list, array( 'className' => 'is-style-square' ), 'eichendorff_import_icon_item_text' ) );
+			$list  = $xpath->query( './/ul', $widget )->item( 0 );
+			$id    = preg_match( '/elementor-element-([0-9a-f]+)/', $widget->getAttribute( 'class' ), $m ) ? $m[1] : '';
+			$style = in_array( $id, $GLOBALS['eichendorff_column_lists'] ?? array(), true ) ? 'is-style-square-columns' : 'is-style-square';
+			return array( eichendorff_import_list( $list, array( 'className' => $style ), 'eichendorff_import_icon_item_text' ) );
 
 		case 'divider':
 			return array( eichendorff_import_block( 'separator', array(), '<hr class="wp-block-separator has-alpha-channel-opacity"/>' ) );
 	}
 
-	throw new RuntimeException( "$page: widget `$type` nie ma zamiany na blok." );
+	$name = $type ? $type : $widget->tagName;
+
+	throw new RuntimeException( "$page: widget `$name` nie ma zamiany na blok." );
+}
+
+/**
+ * Turns the widgets of a container into blocks, skipping widgets nested in other widgets.
+ *
+ * @param DOMElement $root Page, tab or accordion panel.
+ * @param string     $page Page path, for error messages.
+ */
+function eichendorff_import_widgets( DOMElement $root, string $page ): array {
+	$is_widget = static fn( DOMNode $node ): bool => $node instanceof DOMElement && ( $node->hasAttribute( 'data-widget_type' ) || 'widget' === $node->getAttribute( 'data-e-type' ) );
+	$blocks    = array();
+
+	foreach ( iterator_to_array( $root->getElementsByTagName( '*' ) ) as $widget ) {
+		if ( ! $is_widget( $widget ) ) {
+			continue;
+		}
+
+		for ( $parent = $widget->parentNode; $parent && $parent !== $root; $parent = $parent->parentNode ) {
+			if ( $is_widget( $parent ) ) {
+				continue 2;
+			}
+		}
+
+		$widget_blocks = eichendorff_import_widget( $widget, $page );
+
+		// Within one text a paragraph or list follows a paragraph 14.4px below; the next widget keeps the 16px widget gap.
+		if ( $widget_blocks && $blocks && eichendorff_import_is_paragraph( end( $blocks ) ) && eichendorff_import_is_text( $widget_blocks[0] ) ) {
+			$widget_blocks[0] = eichendorff_import_widget_gap( $widget_blocks[0] );
+		}
+
+		array_push( $blocks, ...$widget_blocks );
+	}
+
+	return $blocks;
+}
+
+/**
+ * Returns the Elementor element IDs of icon lists laid out in columns by custom CSS on production.
+ *
+ * The page CSS is kept next to the copies of the pages.
+ *
+ * @param int $source_id Production page ID.
+ */
+function eichendorff_import_column_lists( int $source_id ): array {
+	$file = eichendorff_import_dir() . "/$source_id.css";
+
+	if ( ! file_exists( $file ) ) {
+		$response = wp_remote_get( EICHENDORFF_SOURCE_SITE . "/wp-content/uploads/elementor/css/post-$source_id.css", array( 'timeout' => 60 ) );
+		file_put_contents( $file, 200 === wp_remote_retrieve_response_code( $response ) ? wp_remote_retrieve_body( $response ) : '' );
+	}
+
+	preg_match_all( '/elementor-element-([0-9a-f]+) ul \{\s*column-count:\s*[2-9]/', file_get_contents( $file ), $m );
+
+	return array_unique( $m[1] );
+}
+
+/**
+ * Adds the PDF files a page links to on production to the media library and links to the local copies.
+ *
+ * @param string $html Rendered page.
+ */
+function eichendorff_import_files( string $html ): string {
+	return preg_replace_callback(
+		'#href="(' . preg_quote( EICHENDORFF_SOURCE_SITE, '#' ) . '/[^"]+\.pdf)"#i',
+		static function ( array $m ): string {
+			$attachment = eichendorff_media_from_url( html_entity_decode( $m[1] ), 0 );
+
+			return $attachment ? 'href="' . esc_url( wp_get_attachment_url( $attachment ) ) . '"' : $m[0];
+		},
+		$html
+	);
 }
 
 /**
@@ -318,16 +526,30 @@ function eichendorff_import_is_paragraph( string $block ): bool {
 }
 
 /**
- * Gives a paragraph the 16px top margin that separates Elementor widgets.
+ * Tells whether serialized block markup is a paragraph or a plain list, the blocks of a text widget.
  *
- * @param string $block Paragraph block markup.
+ * @param string $block Block markup.
+ */
+function eichendorff_import_is_text( string $block ): bool {
+	return eichendorff_import_is_paragraph( $block ) || ( str_starts_with( $block, '<!-- wp:list' ) && ! str_contains( strtok( $block, "\n" ), 'is-style-square' ) );
+}
+
+/**
+ * Gives a paragraph or list the 16px top margin that separates Elementor widgets.
+ *
+ * @param string $block Paragraph or list block markup.
  */
 function eichendorff_import_widget_gap( string $block ): string {
-	$parsed = parse_blocks( $block )[0];
-	$attrs  = $parsed['attrs'] + array( 'style' => array( 'spacing' => array( 'margin' => array( 'top' => '1rem' ) ) ) );
-	$html   = preg_replace( '/^<p( class="[^"]*")?>/', '<p$1 style="margin-top:1rem">', trim( $parsed['innerHTML'] ) );
+	return preg_replace_callback(
+		'/^<!-- wp:(paragraph|list)(?: (\{.*?\}))? -->\n<(p|ul|ol)( class="[^"]*")?>/',
+		static function ( array $m ): string {
+			$attrs = json_decode( $m[2] ?? '', true ) ?: array();
+			$attrs = $attrs + array( 'style' => array( 'spacing' => array( 'margin' => array( 'top' => '1rem' ) ) ) );
 
-	return eichendorff_import_block( 'paragraph', $attrs, $html );
+			return "<!-- wp:{$m[1]} " . wp_json_encode( $attrs, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES ) . " -->\n<{$m[3]}" . ( $m[4] ?? '' ) . ' style="margin-top:1rem">';
+		},
+		$block
+	);
 }
 
 /**
@@ -342,24 +564,12 @@ function eichendorff_import_widget_gap( string $block ): string {
 function eichendorff_import_content( array $source, string $page ): string {
 	$document = new DOMDocument();
 	libxml_use_internal_errors( true );
-	$document->loadHTML( '<?xml encoding="utf-8"?><div>' . $source['content']['rendered'] . '</div>', LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD );
+	$document->loadHTML( '<?xml encoding="utf-8"?><div>' . eichendorff_import_files( $source['content']['rendered'] ) . '</div>', LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD );
 	libxml_clear_errors();
 
-	$xpath   = new DOMXPath( $document );
-	$widgets = $xpath->query( '//*[@data-widget_type][not(ancestor::*[@data-widget_type])]' );
-	$blocks  = array();
+	$GLOBALS['eichendorff_column_lists'] = eichendorff_import_column_lists( $source['id'] );
 
-	foreach ( $widgets as $widget ) {
-		$widget_blocks = eichendorff_import_widget( $widget, $page );
-
-		// Paragraphs of one text sit 14.4px apart; a paragraph from the next widget keeps the 16px widget gap.
-		if ( $widget_blocks && $blocks && eichendorff_import_is_paragraph( end( $blocks ) ) && eichendorff_import_is_paragraph( $widget_blocks[0] ) ) {
-			$widget_blocks[0] = eichendorff_import_widget_gap( $widget_blocks[0] );
-		}
-
-		array_push( $blocks, ...$widget_blocks );
-	}
-
+	$blocks = eichendorff_import_widgets( $document->documentElement, $page );
 	$has_h1 = false;
 
 	foreach ( $blocks as &$block ) {

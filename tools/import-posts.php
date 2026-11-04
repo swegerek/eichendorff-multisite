@@ -9,11 +9,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-require_once ABSPATH . 'wp-admin/includes/media.php';
-require_once ABSPATH . 'wp-admin/includes/file.php';
-require_once ABSPATH . 'wp-admin/includes/image.php';
-
-const EICHENDORFF_MAX_MEDIA_BYTES = 100 * MB_IN_BYTES;
+require_once __DIR__ . '/lib/media.php';
 
 $eichendorff_dir = rtrim( $args[0], '/\\' );
 $eichendorff_tax = json_decode( file_get_contents( "$eichendorff_dir/_taxonomies.json" ), true );
@@ -46,44 +42,29 @@ function eichendorff_import_categories( array $ids, array $categories ): array {
  * @param int    $post_id Post the new attachment belongs to.
  */
 function eichendorff_import_media( array $media, string $dir, int $post_id ): int {
-	$found = get_posts(
-		array(
-			'post_type'   => 'attachment',
-			'post_status' => 'inherit',
-			'meta_key'    => '_eichendorff_sha256',
-			'meta_value'  => $media['sha256'],
-			'fields'      => 'ids',
-			'numberposts' => 1,
-		)
-	);
+	$found = eichendorff_media_by_hash( $media['sha256'] );
 
 	if ( $found ) {
-		return $found[0];
+		return $found;
 	}
 
 	$tmp = wp_tempnam( $media['file'] );
 	copy( "$dir/media/{$media['file']}", $tmp );
 
-	$attachment = media_handle_sideload(
-		array(
-			'name'     => $media['file'],
-			'tmp_name' => $tmp,
-		),
+	$attachment = eichendorff_media_add(
+		$tmp,
+		$media['file'],
 		$post_id,
-		null,
 		array(
 			'post_title'   => html_entity_decode( (string) $media['title'], ENT_QUOTES | ENT_HTML5, 'UTF-8' ),
 			'post_excerpt' => trim( wp_strip_all_tags( (string) $media['caption'] ) ),
-		)
+		),
+		$media['sha256']
 	);
 
-	if ( is_wp_error( $attachment ) ) {
-		WP_CLI::warning( "{$media['file']}: " . $attachment->get_error_message() );
-		return 0;
+	if ( $attachment ) {
+		update_post_meta( $attachment, '_wp_attachment_image_alt', (string) $media['alt'] );
 	}
-
-	update_post_meta( $attachment, '_wp_attachment_image_alt', (string) $media['alt'] );
-	update_post_meta( $attachment, '_eichendorff_sha256', $media['sha256'] );
 
 	return $attachment;
 }

@@ -21,7 +21,7 @@ Strona `finansowanie` SHALL pokazywać nagłówek z produkcji i sześć sekcji a
 - **THEN** sekcja `Związek Niemieckich Stowarzyszeń Społeczno-Kulturalnych w Polsce` jest rozwinięta, a pięć pozostałych zwiniętych
 
 ### Requirement: Cennik publikacji
-Strona `publikacje-cennik` SHALL pokazywać cennik jako tabelę z kolumnami `Lp`, `Tytuł książki` i `Cena`, z wyróżnionymi wierszami serii, oraz link do pliku PDF z produkcji.
+Strona `publikacje-cennik` SHALL pokazywać cennik jako tabelę z kolumnami `Lp`, `Tytuł książki` i `Cena` i naprzemiennym tłem wierszy, oraz link do formularza abonamentu w PDF.
 
 #### Scenario: Wiersz serii
 - **WHEN** odwiedzający ogląda tabelę

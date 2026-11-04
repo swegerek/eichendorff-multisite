@@ -26,6 +26,14 @@ function eichendorff_setup(): void {
 			'label' => __( 'Kwadraty', 'eichendorff' ),
 		)
 	);
+
+	register_block_style(
+		'core/list',
+		array(
+			'name'  => 'square-columns',
+			'label' => __( 'Kwadraty w kolumnach', 'eichendorff' ),
+		)
+	);
 }
 add_action( 'after_setup_theme', 'eichendorff_setup' );
 

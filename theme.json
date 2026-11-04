@@ -76,6 +76,7 @@
 				{ "slug": "medium", "name": "Średni", "size": "1rem" },
 				{ "slug": "large", "name": "Duży", "size": "1.25rem" },
 				{ "slug": "section", "name": "Sekcja", "size": "clamp(1.25rem, 1.2031rem + 0.2083vw, 1.375rem)" },
+				{ "slug": "heading", "name": "Nagłówek", "size": "clamp(1.125rem, 1.0781rem + 0.2083vw, 1.25rem)" },
 				{ "slug": "x-large", "name": "Bardzo duży", "size": "1.5rem" }
 			]
 		}
