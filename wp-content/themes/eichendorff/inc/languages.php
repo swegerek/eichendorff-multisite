@@ -409,3 +409,36 @@ function eichendorff_save_translation_box( int $post_id ): void {
 	eichendorff_set_translation( $post_id, $target );
 }
 add_action( 'save_post', 'eichendorff_save_translation_box' );
+
+/**
+ * Returns the month of a date as the first three letters of its name in the site language.
+ *
+ * The badges show `lis` / `Nov` (made uppercase by CSS); the `M` format would give `Nov.` or `März` in German.
+ *
+ * @param int $timestamp Date.
+ */
+function eichendorff_month_abbr( int $timestamp ): string {
+	return mb_substr( wp_date( 'F', $timestamp ), 0, 3 );
+}
+
+/**
+ * Shows the month badge of a news card as the three-letter month.
+ *
+ * @param string   $block_content Rendered block.
+ * @param array    $block         Parsed block.
+ * @param WP_Block $instance      Block instance.
+ */
+function eichendorff_month_badge( string $block_content, array $block, WP_Block $instance ): string {
+	if ( ! str_contains( $block['attrs']['className'] ?? '', 'date-badge__month' ) ) {
+		return $block_content;
+	}
+
+	$timestamp = get_post_timestamp( $instance->context['postId'] ?? 0 );
+
+	if ( ! $timestamp ) {
+		return $block_content;
+	}
+
+	return (string) preg_replace( '#(<time[^>]*>).*?(</time>)#s', '${1}' . esc_html( eichendorff_month_abbr( $timestamp ) ) . '${2}', $block_content, 1 );
+}
+add_filter( 'render_block_core/post-date', 'eichendorff_month_badge', 10, 3 );

@@ -83,6 +83,10 @@ function eichendorff_event_date_binding( array $source_args, WP_Block $block_ins
 
 	$timestamp = ( new DateTimeImmutable( $date, wp_timezone() ) )->getTimestamp();
 
+	if ( 'month-abbr' === ( $source_args['format'] ?? '' ) ) {
+		return eichendorff_month_abbr( $timestamp );
+	}
+
 	return wp_date( $source_args['format'] ?? 'j F Y', $timestamp );
 }
 

@@ -22,7 +22,7 @@ defined( 'ABSPATH' ) || exit;
 			<div class="wp-block-group event-item">
 				<!-- wp:group {"className":"date-badge","layout":{"type":"default"}} -->
 				<div class="wp-block-group date-badge">
-					<!-- wp:paragraph {"metadata":{"bindings":{"content":{"source":"eichendorff/event-date","args":{"format":"M"}}}},"className":"date-badge__month"} -->
+					<!-- wp:paragraph {"metadata":{"bindings":{"content":{"source":"eichendorff/event-date","args":{"format":"month-abbr"}}}},"className":"date-badge__month"} -->
 					<p class="date-badge__month"></p>
 					<!-- /wp:paragraph -->
 

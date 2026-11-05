@@ -24,5 +24,9 @@ WordPress core, `wp-config.php`, `uploads/` and the database are not in the repo
    using the constants from `wp-config-multisite.sample.php`.
 2. Copy `wp-content/` from this repo over the site's `wp-content/`.
 3. Network-activate *Network Media Library*, activate the *Eichendorff* theme on both sites.
-4. Add the German site at `/de/`.
-5. Content: the import scripts are in `wp-content/themes/eichendorff/tools/`.
+4. Add the German site at `/de/`, with site language `de_DE`.
+5. Install the core translations `pl_PL` and `de_DE` into `wp-content/languages`
+   (`wp language core install pl_PL de_DE`, or copy the `*pl_PL*` and `*de_DE*` files
+   from another local install of the same WordPress version). Without them the Polish
+   site shows English dates and month badges.
+6. Content: the import scripts are in `wp-content/themes/eichendorff/tools/`.
