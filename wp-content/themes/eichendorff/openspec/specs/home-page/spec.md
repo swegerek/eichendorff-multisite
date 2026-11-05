@@ -43,6 +43,48 @@ Slider SHALL zmieniać slajdy co 5 sekund w pętli, zatrzymywać się przy najec
 - **WHEN** skrypt slidera się nie wczyta
 - **THEN** widoczny jest pierwszy slajd z tekstem
 
+### Requirement: Przeciąganie slidera
+Slajdy SHALL dać się przeciągać w poziomie myszą i palcem: slajd przesuwa się za wskaźnikiem, a obok wsuwa się sąsiedni. Po puszczeniu slider SHALL przejść do sąsiedniego slajdu, gdy przeciągnięcie przekroczy 20% szerokości albo jest szybkim ruchem, a w przeciwnym razie SHALL wrócić do bieżącego.
+
+#### Scenario: Przeciągnięcie w lewo
+- **WHEN** odwiedzający przeciąga slajd w lewo o połowę szerokości slidera i puszcza
+- **THEN** pojawia się następny slajd, kropka wskazuje go jako bieżący, a automatyczna zmiana się zatrzymuje
+
+#### Scenario: Przeciągnięcie w prawo
+- **WHEN** odwiedzający przeciąga pierwszy slajd w prawo o połowę szerokości
+- **THEN** pojawia się ostatni slajd
+
+#### Scenario: Krótkie przeciągnięcie
+- **WHEN** odwiedzający powoli przeciąga slajd o 100 px na ekranie szerokości 1440 px i puszcza
+- **THEN** slajd wraca na miejsce, a obok nie zostaje sąsiedni
+
+#### Scenario: Przewijanie strony na telefonie
+- **WHEN** odwiedzający przesuwa palcem po sliderze w pionie
+- **THEN** strona się przewija, a slajd się nie zmienia
+
+#### Scenario: Kliknięcie po przeciągnięciu
+- **WHEN** odwiedzający kończy przeciąganie nad linkiem w slajdzie
+- **THEN** link się nie otwiera
+
+### Requirement: Tekst slidera
+Gdy wszystkie slajdy mają ten sam tekst, tekst SHALL być pokazany raz nad slajdami i stać w miejscu przy zmianie i przeciąganiu slajdów, a po załadowaniu strony SHALL raz wjechać z dołu. Slajdy z różnymi tekstami SHALL zachować własne teksty.
+
+#### Scenario: Wjazd tekstu
+- **WHEN** odwiedzający otwiera stronę główną
+- **THEN** tytuł i opis wjeżdżają z dołu i pojawiają się w ciągu około sekundy, opis chwilę po tytule
+
+#### Scenario: Zmiana slajdu
+- **WHEN** slajd zmienia się automatycznie, strzałką albo przeciągnięciem
+- **THEN** przesuwa się tylko zdjęcie, a tekst nie zmienia położenia i nie wjeżdża ponownie
+
+#### Scenario: Ograniczenie ruchu
+- **WHEN** przeglądarka ma ustawienie `prefers-reduced-motion`
+- **THEN** tekst jest widoczny od razu, bez wjazdu
+
+#### Scenario: Położenie tekstu
+- **WHEN** strona jest wyświetlana przy szerokości 1440, 1024 lub 375 px
+- **THEN** tekst stoi w tym samym miejscu, w którym stałby na pierwszym slajdzie
+
 ### Requirement: Nagłówek strony
 Strona główna SHALL mieć dokładnie jeden nagłówek `h1`, a tekst powitalny pierwszego slajdu SHALL nim być.
 

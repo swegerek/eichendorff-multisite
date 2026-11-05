@@ -521,6 +521,57 @@ img {
 	transform: translateX(0);
 }
 
+/* Slides can be dragged sideways; vertical gestures still scroll the page. */
+.home-slider.is-ready {
+	cursor: grab;
+	touch-action: pan-y;
+}
+
+.home-slider.is-dragging {
+	cursor: grabbing;
+	user-select: none;
+}
+
+/* Text shared by all slides, lifted above them by the slider script so it stays still while the photos move. */
+.home-slider__content {
+	position: absolute;
+	inset: 0;
+	z-index: 1;
+	display: flex;
+	align-items: center;
+	padding: 50px;
+	pointer-events: none;
+}
+
+/* The shared text rises from below once, when the page loads; changing slides does not repeat it. */
+@keyframes home-slider-text-in {
+	from {
+		opacity: 0;
+		transform: translateY(40px);
+	}
+
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+.home-slider__content .home-slider__title,
+.home-slider__content .home-slider__text {
+	animation: home-slider-text-in 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.home-slider__content .home-slider__text {
+	animation-delay: 0.15s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.home-slider__content .home-slider__title,
+	.home-slider__content .home-slider__text {
+		animation: none;
+	}
+}
+
 /* The editor shows one slide at a time; the others are reached by scrolling sideways. */
 .editor-styles-wrapper .home-slider {
 	display: flex;
@@ -1437,7 +1488,8 @@ img {
 		column-count: 1;
 	}
 
-	.home-slider .wp-block-cover {
+	.home-slider .wp-block-cover,
+	.home-slider__content {
 		padding: 30px;
 	}
 
@@ -1453,7 +1505,8 @@ img {
 		font-size: 13px;
 	}
 
-	.home-slider .wp-block-cover .home-slider__text {
+	.home-slider .wp-block-cover .home-slider__text,
+	.home-slider__content .home-slider__text {
 		margin-bottom: 15px;
 	}
 
