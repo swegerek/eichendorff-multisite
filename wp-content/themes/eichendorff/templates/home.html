@@ -10,9 +10,7 @@
 	<div class="wp-block-group site-columns">
 		<!-- wp:group {"className":"site-columns__main","layout":{"type":"default"}} -->
 		<div class="wp-block-group site-columns__main">
-			<!-- wp:heading {"className":"news-heading","fontFamily":"inter"} -->
-			<h2 class="wp-block-heading news-heading has-inter-font-family">Aktualności</h2>
-			<!-- /wp:heading -->
+			<!-- wp:pattern {"slug":"eichendorff/news-heading"} /-->
 
 			<!-- wp:query {"queryId":0,"query":{"inherit":true},"layout":{"type":"default"}} -->
 			<div class="wp-block-query">
@@ -27,9 +25,7 @@
 				<!-- /wp:query-pagination -->
 
 				<!-- wp:query-no-results -->
-					<!-- wp:paragraph -->
-					<p>Nie znaleziono treści.</p>
-					<!-- /wp:paragraph -->
+					<!-- wp:pattern {"slug":"eichendorff/no-results"} /-->
 				<!-- /wp:query-no-results -->
 			</div>
 			<!-- /wp:query -->

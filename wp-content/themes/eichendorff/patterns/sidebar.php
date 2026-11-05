@@ -53,10 +53,14 @@ defined( 'ABSPATH' ) || exit;
 	<!-- /wp:heading -->
 
 	<!-- wp:navigation {"overlayMenu":"never","className":"sidebar-nav","layout":{"type":"flex","orientation":"vertical"}} -->
-		<!-- wp:navigation-link {"label":"Home","url":"/","kind":"custom"} /-->
-		<!-- wp:navigation-link {"label":"Fundacja","url":"/fundacja/","kind":"custom"} /-->
-		<!-- wp:navigation-link {"label":"Filmy","url":"/filmy/","kind":"custom"} /-->
-		<!-- wp:navigation-link {"label":"Kontakt","url":"/kontakt/","kind":"custom"} /-->
+<?php
+		eichendorff_print_menu(
+			eichendorff_is_german()
+				? array( array( 'Home', '/' ), array( 'Stiftung', '/stiftung/' ), array( 'Videos', '/videos/' ), array( 'Kontakt', '/kontakt/' ) )
+				: array( array( 'Home', '/' ), array( 'Fundacja', '/fundacja/' ), array( 'Filmy', '/filmy/' ), array( 'Kontakt', '/kontakt/' ) ),
+			2
+		);
+		?>
 	<!-- /wp:navigation -->
 </div>
 <!-- /wp:group -->

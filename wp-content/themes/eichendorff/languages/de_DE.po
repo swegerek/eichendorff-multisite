@@ -1,0 +1,99 @@
+# German translation of the Eichendorff theme.
+# Texts follow eichendorff.pl/de/ as of 2026-11-05.
+msgid ""
+msgstr ""
+"Project-Id-Version: Eichendorff\n"
+"Language: de_DE\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Domain: eichendorff\n"
+
+msgid "Poprzedni"
+msgstr "Voriger"
+
+msgid "Następny"
+msgstr "Nächster"
+
+msgid "Czytaj więcej"
+msgstr "Mehr lesen"
+
+msgid "Jesteś tutaj:"
+msgstr "Sie sind hier:"
+
+msgid "Aktualności"
+msgstr "Aktuelles"
+
+msgid "Nie znaleziono treści."
+msgstr "An diesem Ort konnte nichts gefunden werden."
+
+msgid "Wydarzenia"
+msgstr "Veranstaltungen"
+
+msgid "Menu dodatkowe"
+msgstr "Zusätzliches Menü"
+
+msgid "Partnerzy"
+msgstr "Partner"
+
+msgid "Witaj na stronie GCKiS"
+msgstr "Willkommen auf der Webseite des OEKBZ"
+
+msgid "Oficjalna strona Górnoslaskiego Centrum Kultury i Spotkań im. Josepha von Eichendorff w Łubowicach"
+msgstr "Offizielle Seite des Oberschlesischen Zentrums für Kultur und Begegnungen Joseph von Eichendorff in Lubowitz"
+
+msgid "Instytucje wspierające"
+msgstr "Unterstützende Institutionen"
+
+msgid "Górnośląskie Centrum Kultury i Spotkań im. Josepha von Eichendorffa"
+msgstr "Oberschlesisches Eichendorff- Kultur- und Begegnungszentrum im. Joseph von Eichendorff"
+
+msgid "Miejsce spotkań, kultury i tradycji w sercu Górnego Śląska. Zapraszamy do udziału w naszych wydarzeniach kulturalnych."
+msgstr "Ein Ort der Begegnung, Kultur und Tradition im Herzen Oberschlesiens. Wir laden Sie herzlich zu unseren Kulturveranstaltungen ein."
+
+msgid "Obserwuj nas na Facebooku"
+msgstr "Folgen Sie uns auf Facebook"
+
+msgid "Dane kontaktowe"
+msgstr "Kontaktinformationen"
+
+msgid "47-411 Łubowice"
+msgstr "47-411 Lubowitz<br>Polen"
+
+msgctxt "recepcja"
+msgid "tel:"
+msgstr "Rezeption:"
+
+msgctxt "księgowość"
+msgid "tel:"
+msgstr "Buchhaltung:"
+
+msgctxt "zarząd"
+msgid "tel:"
+msgstr "Management:"
+
+msgid "Wesprzyj fundację"
+msgstr "Unterstützen Sie die Stiftung"
+
+msgid "Nr rachunku bieżącego:"
+msgstr "Kontonummer des laufenden Kontos:"
+
+msgid "Nr konta :"
+msgstr "Kontonummer:"
+
+msgid "Nr rachunku walutowego:"
+msgstr "Fremdwährungskontonummer:"
+
+msgid "Copyright © 2025 GCKiS Łubowice"
+msgstr "Copyright © 2024 GCKiS Lubowitz"
+
+msgid "Poprzedni slajd"
+msgstr "Vorheriger Slide"
+
+msgid "Następny slajd"
+msgstr "Nächster Slide"
+
+#, php-format
+msgid "Slajd %d"
+msgstr "Slide %d"

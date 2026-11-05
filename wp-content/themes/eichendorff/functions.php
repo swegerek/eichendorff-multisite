@@ -9,7 +9,7 @@ defined( 'ABSPATH' ) || exit;
 
 define( 'EICHENDORFF_VERSION', wp_get_theme( 'eichendorff' )->get( 'Version' ) );
 
-require_once get_theme_file_path( 'inc/german-link.php' );
+require_once get_theme_file_path( 'inc/languages.php' );
 require_once get_theme_file_path( 'inc/events.php' );
 require_once get_theme_file_path( 'inc/landing.php' );
 
@@ -89,6 +89,18 @@ function eichendorff_enqueue_assets(): void {
 
 	if ( is_home() ) {
 		wp_enqueue_script( 'eichendorff-slider', get_theme_file_uri( 'assets/js/slider.js' ), array(), EICHENDORFF_VERSION, array( 'strategy' => 'defer' ) );
+		wp_add_inline_script(
+			'eichendorff-slider',
+			'window.eichendorffSlider = ' . wp_json_encode(
+				array(
+					'previous' => __( 'Poprzedni slajd', 'eichendorff' ),
+					'next'     => __( 'Następny slajd', 'eichendorff' ),
+					/* translators: %d: slide number. */
+					'slide'    => __( 'Slajd %d', 'eichendorff' ),
+				)
+			) . ';',
+			'before'
+		);
 	}
 }
 add_action( 'wp_enqueue_scripts', 'eichendorff_enqueue_assets' );

@@ -1,0 +1,603 @@
+# Copyright (C) 2026 
+# This file is distributed under the same license as the Eichendorff theme.
+msgid ""
+msgstr ""
+"Project-Id-Version: Eichendorff 0.3.7\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/theme/eichendorff\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-11-05T14:47:59+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: eichendorff\n"
+
+#. Theme Name of the theme
+#: style.css
+#: inc/landing.php:43
+msgid "Eichendorff"
+msgstr ""
+
+#. Theme URI of the theme
+#: style.css
+msgid "https://eichendorff.pl/"
+msgstr ""
+
+#. Description of the theme
+#: style.css
+msgid "Dedykowany motyw Górnośląskiego Centrum Kultury i Spotkań im. Josepha von Eichendorffa w Łubowicach."
+msgstr ""
+
+#: blocks/trail-card/render.php:40
+msgid "Trasa"
+msgstr ""
+
+#: blocks/trail-card/render.php:44
+msgid "Dystans"
+msgstr ""
+
+#: blocks/trail-card/render.php:48
+msgid "Oznaczenie szlaku"
+msgstr ""
+
+#: blocks/trail-card/render.php:53
+msgid "Pobierz trasę"
+msgstr ""
+
+#: functions.php:28
+msgid "Kwadraty"
+msgstr ""
+
+#: functions.php:36
+msgid "Kwadraty w kolumnach"
+msgstr ""
+
+#: functions.php:44
+msgid "Siatka"
+msgstr ""
+
+#: functions.php:52
+msgid "Tytuł"
+msgstr ""
+
+#: functions.php:97
+msgid "Poprzedni slajd"
+msgstr ""
+
+#: functions.php:98
+msgid "Następny slajd"
+msgstr ""
+
+#. translators: %d: slide number.
+#: functions.php:100
+#, php-format
+msgid "Slajd %d"
+msgstr ""
+
+#: inc/events.php:18
+#: patterns/sidebar.php:15
+msgid "Wydarzenia"
+msgstr ""
+
+#: inc/events.php:19
+msgid "Wydarzenie"
+msgstr ""
+
+#: inc/events.php:20
+msgid "Dodaj wydarzenie"
+msgstr ""
+
+#: inc/events.php:21
+msgid "Edytuj wydarzenie"
+msgstr ""
+
+#: inc/events.php:22
+msgid "Wszystkie wydarzenia"
+msgstr ""
+
+#: inc/events.php:51
+#: inc/events.php:96
+#: inc/events.php:109
+msgid "Data wydarzenia"
+msgstr ""
+
+#: inc/landing.php:18
+msgid "Flaga Polski"
+msgstr ""
+
+#: inc/landing.php:19
+msgid "Flaga Niemiec"
+msgstr ""
+
+#: inc/landing.php:20
+msgid "Flaga Czech"
+msgstr ""
+
+#: inc/landing.php:21
+msgid "Flaga Wielkiej Brytanii"
+msgstr ""
+
+#: inc/landing.php:22
+msgid "Drzewa"
+msgstr ""
+
+#: inc/landing.php:23
+msgid "Drzewo"
+msgstr ""
+
+#: inc/landing.php:24
+msgid "Rower"
+msgstr ""
+
+#: inc/landing.php:25
+msgid "Ślady stóp"
+msgstr ""
+
+#: inc/landing.php:26
+msgid "Góry"
+msgstr ""
+
+#: inc/landing.php:27
+msgid "Pinezka"
+msgstr ""
+
+#: inc/landing.php:28
+msgid "Pobieranie"
+msgstr ""
+
+#: inc/landing.php:29
+#: inc/landing.php:70
+msgid "Link zewnętrzny"
+msgstr ""
+
+#: inc/landing.php:30
+msgid "Strzałka w prawo"
+msgstr ""
+
+#: inc/landing.php:31
+msgid "Informacja"
+msgstr ""
+
+#: inc/landing.php:62
+msgid "Nagłówek strony"
+msgstr ""
+
+#: inc/landing.php:64
+msgid "Karta"
+msgstr ""
+
+#: inc/landing.php:65
+#: inc/landing.php:67
+msgid "Dwie kolumny"
+msgstr ""
+
+#: inc/landing.php:69
+msgid "Pobierz"
+msgstr ""
+
+#: inc/landing.php:71
+msgid "Strzałka"
+msgstr ""
+
+#: inc/languages.php:75
+msgid "Poprzedni"
+msgstr ""
+
+#: inc/languages.php:76
+msgid "Następny"
+msgstr ""
+
+#: inc/languages.php:77
+msgid "Czytaj więcej"
+msgstr ""
+
+#: patterns/breadcrumbs-label.php
+msgctxt "Pattern title"
+msgid "Etykieta okruszków"
+msgstr ""
+
+#: patterns/breadcrumbs-label.php:13
+msgid "Jesteś tutaj:"
+msgstr ""
+
+#: patterns/footer.php
+msgctxt "Pattern title"
+msgid "Stopka"
+msgstr ""
+
+#: patterns/footer.php:25
+msgid "Instytucje wspierające"
+msgstr ""
+
+#: patterns/footer.php:49
+#: patterns/footer.php:71
+msgid "Górnośląskie Centrum Kultury i Spotkań im. Josepha von Eichendorffa"
+msgstr ""
+
+#: patterns/footer.php:53
+msgid "Miejsce spotkań, kultury i tradycji w sercu Górnego Śląska. Zapraszamy do udziału w naszych wydarzeniach kulturalnych."
+msgstr ""
+
+#: patterns/footer.php:57
+msgid "Obserwuj nas na Facebooku"
+msgstr ""
+
+#: patterns/footer.php:65
+msgid "Dane kontaktowe"
+msgstr ""
+
+#: patterns/footer.php:71
+msgid "47-411 Łubowice"
+msgstr ""
+
+#: patterns/footer.php:75
+msgctxt "recepcja"
+msgid "tel:"
+msgstr ""
+
+#: patterns/footer.php:75
+msgctxt "księgowość"
+msgid "tel:"
+msgstr ""
+
+#: patterns/footer.php:75
+msgctxt "zarząd"
+msgid "tel:"
+msgstr ""
+
+#: patterns/footer.php:89
+msgid "Wesprzyj fundację"
+msgstr ""
+
+#: patterns/footer.php:95
+msgid "Nr rachunku bieżącego:"
+msgstr ""
+
+#: patterns/footer.php:95
+#: patterns/footer.php:99
+msgid "Nr konta :"
+msgstr ""
+
+#: patterns/footer.php:99
+msgid "Nr rachunku walutowego:"
+msgstr ""
+
+#: patterns/footer.php:111
+msgid "Copyright © 2025 GCKiS Łubowice"
+msgstr ""
+
+#: patterns/header.php
+msgctxt "Pattern title"
+msgid "Nagłówek"
+msgstr ""
+
+#: patterns/home-slider.php
+msgctxt "Pattern title"
+msgid "Slider strony głównej"
+msgstr ""
+
+#: patterns/home-slider.php:12
+msgid "Witaj na stronie GCKiS"
+msgstr ""
+
+#: patterns/home-slider.php:13
+msgid "Oficjalna strona Górnoslaskiego Centrum Kultury i Spotkań im. Josepha von Eichendorff w Łubowicach"
+msgstr ""
+
+#: patterns/news-card.php
+msgctxt "Pattern title"
+msgid "Karta aktualności"
+msgstr ""
+
+#: patterns/news-heading.php
+msgctxt "Pattern title"
+msgid "Nagłówek aktualności"
+msgstr ""
+
+#: patterns/news-heading.php:13
+msgid "Aktualności"
+msgstr ""
+
+#: patterns/no-results.php
+msgctxt "Pattern title"
+msgid "Brak wyników"
+msgstr ""
+
+#: patterns/no-results.php:13
+msgid "Nie znaleziono treści."
+msgstr ""
+
+#: patterns/page-hero.php
+msgctxt "Pattern title"
+msgid "Nagłówek strony ze zdjęciem"
+msgstr ""
+
+#: patterns/page-hero.php
+msgctxt "Pattern description"
+msgid "Zdjęcie z zaokrągleniem, ikona w kole, tytuł strony i podtytuł na środku. Zdjęcie wybiera się na pasku narzędzi Okładki."
+msgstr ""
+
+#: patterns/page-intro.php
+msgctxt "Pattern title"
+msgid "Nagłówek strony na jasnym tle"
+msgstr ""
+
+#: patterns/page-intro.php
+msgctxt "Pattern description"
+msgid "Jasne tło z zaokrągleniem, ikona w kole, tytuł i tekst wprowadzenia na środku."
+msgstr ""
+
+#: patterns/post-meta.php
+msgctxt "Pattern title"
+msgid "Data i godzina wpisu"
+msgstr ""
+
+#: patterns/sidebar.php
+msgctxt "Pattern title"
+msgid "Panel boczny"
+msgstr ""
+
+#: patterns/sidebar.php:52
+msgid "Menu dodatkowe"
+msgstr ""
+
+#: patterns/sidebar.php:71
+msgid "Partnerzy"
+msgstr ""
+
+#: blocks/film/block.json
+msgctxt "block title"
+msgid "Film"
+msgstr ""
+
+#: blocks/film/block.json
+msgctxt "block description"
+msgid "Tytuł i film z pliku albo z YouTube."
+msgstr ""
+
+#: blocks/language-section/block.json
+msgctxt "block title"
+msgid "Sekcja językowa"
+msgstr ""
+
+#: blocks/language-section/block.json
+msgctxt "block description"
+msgid "Tekst w jednym języku pod flagą i nazwą języka."
+msgstr ""
+
+#: blocks/language-section/block.json
+msgctxt "block keyword"
+msgid "język"
+msgstr ""
+
+#: blocks/language-section/block.json
+msgctxt "block keyword"
+msgid "flaga"
+msgstr ""
+
+#: blocks/language-section/block.json
+msgctxt "block keyword"
+msgid "polski"
+msgstr ""
+
+#: blocks/language-section/block.json
+msgctxt "block keyword"
+msgid "deutsch"
+msgstr ""
+
+#: blocks/language-section/block.json
+msgctxt "block keyword"
+msgid "english"
+msgstr ""
+
+#: blocks/language-section/block.json
+msgctxt "block keyword"
+msgid "čeština"
+msgstr ""
+
+#: blocks/trail-card/block.json
+msgctxt "block title"
+msgid "Karta szlaku"
+msgstr ""
+
+#: blocks/trail-card/block.json
+msgctxt "block description"
+msgid "Szlak z trasą, dystansem, oznaczeniem i plikami GPX i KML do pobrania."
+msgstr ""
+
+#: blocks/trail-list/block.json
+msgctxt "block title"
+msgid "Lista szlaków"
+msgstr ""
+
+#: blocks/trail-list/block.json
+msgctxt "block description"
+msgid "Karty szlaków jedna pod drugą."
+msgstr ""
+
+#: blocks/trail-list/block.json
+msgctxt "block keyword"
+msgid "szlak"
+msgstr ""
+
+#: blocks/trail-list/block.json
+msgctxt "block keyword"
+msgid "trasa"
+msgstr ""
+
+#: blocks/trail-list/block.json
+msgctxt "block keyword"
+msgid "gpx"
+msgstr ""
+
+#: blocks/trail-list/block.json
+msgctxt "block keyword"
+msgid "kml"
+msgstr ""
+
+#: blocks/video-grid/block.json
+msgctxt "block title"
+msgid "Siatka filmów"
+msgstr ""
+
+#: blocks/video-grid/block.json
+msgctxt "block description"
+msgid "Filmy w dwóch kolumnach, każdy pod swoim tytułem; na telefonie w jednej kolumnie."
+msgstr ""
+
+#: blocks/video-grid/block.json
+msgctxt "block keyword"
+msgid "film"
+msgstr ""
+
+#: blocks/video-grid/block.json
+msgctxt "block keyword"
+msgid "wideo"
+msgstr ""
+
+#: blocks/video-grid/block.json
+msgctxt "block keyword"
+msgid "youtube"
+msgstr ""
+
+#: theme.json
+msgctxt "Color name"
+msgid "Tekst"
+msgstr ""
+
+#: theme.json
+msgctxt "Color name"
+msgid "Tekst bazowy"
+msgstr ""
+
+#: theme.json
+msgctxt "Color name"
+msgid "Piasek"
+msgstr ""
+
+#: theme.json
+msgctxt "Color name"
+msgid "Kora"
+msgstr ""
+
+#: theme.json
+msgctxt "Color name"
+msgid "Biały"
+msgstr ""
+
+#: theme.json
+msgctxt "Color name"
+msgid "Krem"
+msgstr ""
+
+#: theme.json
+msgctxt "Color name"
+msgid "Masło"
+msgstr ""
+
+#: theme.json
+msgctxt "Color name"
+msgid "Bursztyn"
+msgstr ""
+
+#: theme.json
+msgctxt "Color name"
+msgid "Mgła"
+msgstr ""
+
+#: theme.json
+msgctxt "Color name"
+msgid "Kamień"
+msgstr ""
+
+#: theme.json
+msgctxt "Color name"
+msgid "Linia"
+msgstr ""
+
+#: theme.json
+msgctxt "Color name"
+msgid "Tło strony"
+msgstr ""
+
+#: theme.json
+msgctxt "Gradient name"
+msgid "Stopka"
+msgstr ""
+
+#: theme.json
+msgctxt "Font family name"
+msgid "Systemowy"
+msgstr ""
+
+#: theme.json
+msgctxt "Font family name"
+msgid "Inter"
+msgstr ""
+
+#: theme.json
+msgctxt "Font family name"
+msgid "Lora"
+msgstr ""
+
+#: theme.json
+msgctxt "Font size name"
+msgid "Bardzo mały"
+msgstr ""
+
+#: theme.json
+msgctxt "Font size name"
+msgid "Mały"
+msgstr ""
+
+#: theme.json
+msgctxt "Font size name"
+msgid "Średni"
+msgstr ""
+
+#: theme.json
+msgctxt "Font size name"
+msgid "Duży"
+msgstr ""
+
+#: theme.json
+msgctxt "Font size name"
+msgid "Sekcja"
+msgstr ""
+
+#: theme.json
+msgctxt "Font size name"
+msgid "Nagłówek"
+msgstr ""
+
+#: theme.json
+msgctxt "Font size name"
+msgid "Bardzo duży"
+msgstr ""
+
+#: theme.json
+msgctxt "Custom template name"
+msgid "Landing"
+msgstr ""
+
+#: theme.json
+msgctxt "Template part name"
+msgid "Nagłówek"
+msgstr ""
+
+#: theme.json
+msgctxt "Template part name"
+msgid "Stopka"
+msgstr ""
+
+#: theme.json
+msgctxt "Template part name"
+msgid "Okruszki"
+msgstr ""
+
+#: theme.json
+msgctxt "Template part name"
+msgid "Panel boczny"
+msgstr ""

@@ -6,6 +6,7 @@
 		return;
 	}
 
+	const labels = Object.assign( { previous: 'Poprzedni slajd', next: 'Następny slajd', slide: 'Slajd %d' }, window.eichendorffSlider );
 	const INTERVAL = 5000;
 	const reducedMotion = window.matchMedia( '(prefers-reduced-motion: reduce)' ).matches;
 
@@ -25,7 +26,7 @@
 	dots.className = 'home-slider__dots';
 
 	const dotButtons = slides.map( ( slide, index ) => {
-		const dot = createButton( 'home-slider__dot', `Slajd ${ index + 1 }` );
+		const dot = createButton( 'home-slider__dot', labels.slide.replace( '%d', index + 1 ) );
 		dots.append( dot );
 		return dot;
 	} );
@@ -72,8 +73,8 @@
 		show( index, direction );
 	};
 
-	const previous = createButton( 'home-slider__arrow is-previous', 'Poprzedni slajd' );
-	const next = createButton( 'home-slider__arrow is-next', 'Następny slajd' );
+	const previous = createButton( 'home-slider__arrow is-previous', labels.previous );
+	const next = createButton( 'home-slider__arrow is-next', labels.next );
 
 	previous.addEventListener( 'click', () => interact( current - 1, -1 ) );
 	next.addEventListener( 'click', () => interact( current + 1, 1 ) );

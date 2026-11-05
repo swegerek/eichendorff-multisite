@@ -68,11 +68,11 @@ $eichendorff_logos = array(
 			<!-- wp:list {"className":"site-footer__contact"} -->
 			<ul class="wp-block-list site-footer__contact">
 				<!-- wp:list-item {"className":"is-address"} -->
-				<li class="is-address"><?php esc_html_e( 'Górnośląskie Centrum Kultury i Spotkań im. Josepha von Eichendorffa', 'eichendorff' ); ?><br>ul. Zamkowa 1-3<br>47-411 Łubowice</li>
+				<li class="is-address"><?php esc_html_e( 'Górnośląskie Centrum Kultury i Spotkań im. Josepha von Eichendorffa', 'eichendorff' ); ?><br>ul. Zamkowa 1-3<br><?php echo wp_kses( __( '47-411 Łubowice', 'eichendorff' ), array( 'br' => array() ) ); ?></li>
 				<!-- /wp:list-item -->
 
 				<!-- wp:list-item {"className":"is-phone"} -->
-				<li class="is-phone">tel: +48 32 410 6602<br>tel: +48 32 414 9207<br>tel: +48 32 414 9206</li>
+				<li class="is-phone"><?php echo esc_html_x( 'tel:', 'recepcja', 'eichendorff' ); ?> +48 32 410 6602<br><?php echo esc_html_x( 'tel:', 'księgowość', 'eichendorff' ); ?> +48 32 414 9207<br><?php echo esc_html_x( 'tel:', 'zarząd', 'eichendorff' ); ?> +48 32 414 9206</li>
 				<!-- /wp:list-item -->
 
 				<!-- wp:list-item {"className":"is-email"} -->
@@ -92,11 +92,11 @@ $eichendorff_logos = array(
 			<!-- wp:group {"layout":{"type":"default"}} -->
 			<div class="wp-block-group">
 				<!-- wp:paragraph -->
-				<p><?php esc_html_e( 'Nr rachunku bieżącego:', 'eichendorff' ); ?><br>Nr konta : 91 2030 0045 1110 0000 0425 6670<br>(IBAN) PL 91 2030 0045 1110 0000 0425 6670<br>(BIC/SWIFT) PPABPLPK</p>
+				<p><?php esc_html_e( 'Nr rachunku bieżącego:', 'eichendorff' ); ?><br><?php esc_html_e( 'Nr konta :', 'eichendorff' ); ?> 91 2030 0045 1110 0000 0425 6670<br>(IBAN) PL 91 2030 0045 1110 0000 0425 6670<br>(BIC/SWIFT) PPABPLPK</p>
 				<!-- /wp:paragraph -->
 
 				<!-- wp:paragraph -->
-				<p><?php esc_html_e( 'Nr rachunku walutowego:', 'eichendorff' ); ?><br>Nr konta : 27 1600 1462 1031 1819 6000 0003<br>(IBAN) PL 27 1600 1462 1031 1819 6000 0003<br>(BIC/SWIFT) PPABPLPK</p>
+				<p><?php esc_html_e( 'Nr rachunku walutowego:', 'eichendorff' ); ?><br><?php esc_html_e( 'Nr konta :', 'eichendorff' ); ?> 27 1600 1462 1031 1819 6000 0003<br>(IBAN) PL 27 1600 1462 1031 1819 6000 0003<br>(BIC/SWIFT) PPABPLPK</p>
 				<!-- /wp:paragraph -->
 			</div>
 			<!-- /wp:group -->
@@ -108,7 +108,7 @@ $eichendorff_logos = array(
 	<!-- wp:group {"className":"site-footer__bottom","textColor":"stone","layout":{"type":"default"}} -->
 	<div class="wp-block-group site-footer__bottom has-stone-color has-text-color">
 		<!-- wp:paragraph {"className":"site-container"} -->
-		<p class="site-container">Copyright © 2025 GCKiS Łubowice</p>
+		<p class="site-container"><?php esc_html_e( 'Copyright © 2025 GCKiS Łubowice', 'eichendorff' ); ?></p>
 		<!-- /wp:paragraph -->
 	</div>
 	<!-- /wp:group -->

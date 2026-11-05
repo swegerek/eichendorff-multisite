@@ -1,0 +1,706 @@
+{
+ "note": "Pary odpowiedników PL ↔ DE z ID produkcji. Pary \"srednia\" przejrzane 2026-11-05: te same daty i tłumaczona treść, więc zatwierdzone. Dodana para życzeń 2019 (ten sam tekst). Koncerty PL 2021-12-30 i DE 2022-12-29 to różne wydarzenia.",
+ "source": "publiczne REST API eichendorff.pl i eichendorff.pl/de",
+ "generated": "2026-11-04",
+ "reviewed": "2026-11-05",
+ "pages": {
+  "pairs": [
+   {
+    "pl": 2,
+    "de": 2,
+    "pl_slug": "home",
+    "de_slug": "home",
+    "pl_title": "Home",
+    "de_title": "Home"
+   },
+   {
+    "pl": 8,
+    "de": 270,
+    "pl_slug": "fundacja",
+    "de_slug": "stiftung",
+    "pl_title": "Fundacja",
+    "de_title": "Stiftung"
+   },
+   {
+    "pl": 9,
+    "de": 280,
+    "pl_slug": "statut-fundacji",
+    "de_slug": "satzung",
+    "pl_title": "Statut fundacji",
+    "de_title": "Satzung"
+   },
+   {
+    "pl": 10,
+    "de": 282,
+    "pl_slug": "zarzad",
+    "de_slug": "stiftungsrat",
+    "pl_title": "Zarząd",
+    "de_title": "Stiftungsrat"
+   },
+   {
+    "pl": 11,
+    "de": 278,
+    "pl_slug": "rys-historyczny",
+    "de_slug": "geschichtlicher-riss",
+    "pl_title": "Rys historyczny",
+    "de_title": "Geschichtlicher Riss"
+   },
+   {
+    "pl": 12,
+    "de": 274,
+    "pl_slug": "rada-kuratorow",
+    "de_slug": "kuratorenrat",
+    "pl_title": "Rada kuratorów",
+    "de_title": "Kuratorenrat"
+   },
+   {
+    "pl": 13,
+    "de": 276,
+    "pl_slug": "rada-naukowa",
+    "de_slug": "wissenschaftsrat",
+    "pl_title": "Rada naukowa",
+    "de_title": "Wissenschaftsrat"
+   },
+   {
+    "pl": 14,
+    "de": 272,
+    "pl_slug": "galeria-zasluzonych",
+    "de_slug": "verdiente-personlichkeiten",
+    "pl_title": "Galeria zasłużonych",
+    "de_title": "Verdiente Persönlichkeiten"
+   },
+   {
+    "pl": 7,
+    "de": 23,
+    "pl_slug": "kontakt",
+    "de_slug": "kontakt",
+    "pl_title": "Kontakt",
+    "de_title": "Kontakt"
+   },
+   {
+    "pl": 49,
+    "de": 284,
+    "pl_slug": "filmy",
+    "de_slug": "videos",
+    "pl_title": "Filmy",
+    "de_title": "Videos"
+   },
+   {
+    "pl": 68,
+    "de": 286,
+    "pl_slug": "hotel",
+    "de_slug": "hotel-und-umgebung",
+    "pl_title": "Hotel i otoczenie",
+    "de_title": "Hotel und Umgebung"
+   },
+   {
+    "pl": 71,
+    "de": 290,
+    "pl_slug": "organizacja-imprez",
+    "de_slug": "organisation-von-veranstaltungen",
+    "pl_title": "Organizacja imprez",
+    "de_title": "Organisation von Veranstaltungen"
+   },
+   {
+    "pl": 72,
+    "de": 288,
+    "pl_slug": "hotel-cennik",
+    "de_slug": "hotel-preisliste",
+    "pl_title": "Hotel &#8211; Cennik",
+    "de_title": "Hotel &#8211; Preisliste"
+   },
+   {
+    "pl": 75,
+    "de": 294,
+    "pl_slug": "publikacje-cennik",
+    "de_slug": "veroffentlichungen-preisliste",
+    "pl_title": "Publikacje &#8211; cennik",
+    "de_title": "Veröffentlichungen &#8211; Preisliste"
+   },
+   {
+    "pl": 76,
+    "de": 292,
+    "pl_slug": "cykle-wydawnicze",
+    "de_slug": "veroffentlichungszyklen",
+    "pl_title": "Cykle wydawnicze",
+    "de_title": "Veröffentlichungszyklen"
+   },
+   {
+    "pl": 77,
+    "de": 27,
+    "pl_slug": "materialy-zdigitalizowane",
+    "de_slug": "digitalisierte-verlage",
+    "pl_title": "Materiały zdigitalizowane",
+    "de_title": "Digitalisierte Verlage"
+   },
+   {
+    "pl": 567,
+    "de": 550,
+    "pl_slug": "finansowanie",
+    "de_slug": "forderung",
+    "pl_title": "Finansowanie",
+    "de_title": "Förderung"
+   }
+  ],
+  "pl_only": [
+   "park-lubowice",
+   "szlaki-turystyczne"
+  ],
+  "de_only": [
+   "privacy-policy"
+  ]
+ },
+ "posts": {
+  "pairs": [
+   {
+    "pl": 560,
+    "de": 544,
+    "pl_slug": "nowosci-wydawnicze-w-serii-perly-literatury-slaskiej-juwelen-schlesischer-literatur",
+    "de_slug": "neuerscheinungen-in-der-reihe-perly-literatury-slaskiej-juwelen-schlesischer-literatur",
+    "pl_title": "Nowości wydawnicze w serii „Perły Literatury Śląskiej – Juwe",
+    "de_title": "Neuerscheinungen in der Reihe „Perły Literatury Śląskiej – J",
+    "confidence": "wysoka"
+   },
+   {
+    "pl": 547,
+    "de": 535,
+    "pl_slug": "koncert-zimowy-u-eichendorffa",
+    "de_slug": "winterkonzert-bei-eichendorff",
+    "pl_title": "Koncert Zimowy u Eichendorffa",
+    "de_title": "Winterkonzert bei Eichendorff",
+    "confidence": "wysoka"
+   },
+   {
+    "pl": 478,
+    "de": 529,
+    "pl_slug": "168-rocznica-smierci-josepha-von-eichendorffa",
+    "de_slug": "168-todestag-von-joseph-von-eichendorff",
+    "pl_title": "168 rocznica śmierci Josepha von Eichendorffa",
+    "de_title": "168. Todestag von Joseph von Eichendorff",
+    "confidence": "wysoka"
+   },
+   {
+    "pl": 349,
+    "de": 422,
+    "pl_slug": "noc-muzeow-w-centrum-eichendorffa",
+    "de_slug": "nacht-der-museen-im-eichendorffzentrum",
+    "pl_title": "Noc Muzeów w Centrum Eichendorffa",
+    "de_title": "Nacht Der Museen Im Eichendorffzentrum",
+    "confidence": "wysoka"
+   },
+   {
+    "pl": 103,
+    "de": 75,
+    "pl_slug": "235-rocznica-urodzin-josepha-von-eichendorffa",
+    "de_slug": "235-geburtstags-von-joseph-von-eichendorff",
+    "pl_title": "235 rocznica urodzin Josepha von Eichendorffa",
+    "de_title": "235. Geburtstags von Joseph von Eichendorff",
+    "confidence": "wysoka"
+   },
+   {
+    "pl": 104,
+    "de": 76,
+    "pl_slug": "zyczenia-bozonarodzeniowe-122022",
+    "de_slug": "weihnachtswuensche",
+    "pl_title": "Życzenia bożonarodzeniowe",
+    "de_title": "Weihnachtswünsche",
+    "confidence": "wysoka"
+   },
+   {
+    "pl": 113,
+    "de": 85,
+    "pl_slug": "podziekowanie-2",
+    "de_slug": "danksagung",
+    "pl_title": "Podziękowanie",
+    "de_title": "Danksagung",
+    "confidence": "wysoka"
+   },
+   {
+    "pl": 110,
+    "de": 87,
+    "pl_slug": "podziekowanie",
+    "de_slug": "danksagung-2",
+    "pl_title": "Podziękowanie",
+    "de_title": "DANKSAGUNG",
+    "confidence": "wysoka"
+   },
+   {
+    "pl": 114,
+    "de": 94,
+    "pl_slug": "234-rocznica-urodzin-josepha-von-eichendorffa",
+    "de_slug": "234-geburtstags-von-joseph-von-eichendorff",
+    "pl_title": "234 rocznica urodzin Josepha von Eichendorffa",
+    "de_title": "234. Geburtstags von Joseph von Eichendorff",
+    "confidence": "wysoka"
+   },
+   {
+    "pl": 116,
+    "de": 96,
+    "pl_slug": "164-rocznica-smierci-josepha-von-eichendorffa",
+    "de_slug": "164-todestag-von-joseph-von-eichendorff",
+    "pl_title": "164. rocznica śmierci Josepha von Eichendorffa",
+    "de_title": "164. Todestag von Joseph von Eichendorff",
+    "confidence": "wysoka"
+   },
+   {
+    "pl": 124,
+    "de": 101,
+    "pl_slug": "poezja-natury-konkurs",
+    "de_slug": "naturlyrik-wettbewerb",
+    "pl_title": "Poezja natury - konkurs",
+    "de_title": "Naturlyrik - Wettbewerb",
+    "confidence": "wysoka"
+   },
+   {
+    "pl": 130,
+    "de": 116,
+    "pl_slug": "rycerze-szczescia",
+    "de_slug": "die-gluecksritter",
+    "pl_title": "Rycerze Szczęścia",
+    "de_title": "Die Glücksritter",
+    "confidence": "wysoka"
+   },
+   {
+    "pl": 131,
+    "de": 117,
+    "pl_slug": "zeszyty-eichendorffa",
+    "de_slug": "eichendorff-hefte",
+    "pl_title": "Zeszyty Eichendorffa",
+    "de_title": "Eichendorff-Hefte",
+    "confidence": "wysoka"
+   },
+   {
+    "pl": 132,
+    "de": 118,
+    "pl_slug": "perly-literatury-slaskiej",
+    "de_slug": "juwelen-schlesischer-literatur",
+    "pl_title": "Perły literatury Śląskiej",
+    "de_title": "Juwelen Schlesischer Literatur",
+    "confidence": "wysoka"
+   },
+   {
+    "pl": 133,
+    "de": 119,
+    "pl_slug": "koncert-choru-kameralnego-capella-cracoviensis-z-krakowa",
+    "de_slug": "konzert-des-kammerchors-capella-cracoviensis",
+    "pl_title": "Koncert chóru kameralnego Capella Cracoviensis z Krakowa",
+    "de_title": "Konzert des Kammerchors Capella Cracoviensis",
+    "confidence": "wysoka"
+   },
+   {
+    "pl": 141,
+    "de": 135,
+    "pl_slug": "uroczystosc-z-okazji-232-rocznicy-urodzin-josepha-von-eichendorffa",
+    "de_slug": "des-232-geburtstags-von-joseph-von-eichendorff",
+    "pl_title": "Uroczystość z okazji 232 rocznicy urodzin Josepha von Eichen",
+    "de_title": "Des 232. Geburtstags von Joseph von Eichendorff",
+    "confidence": "wysoka"
+   },
+   {
+    "pl": 140,
+    "de": 134,
+    "pl_slug": "ogloszenie",
+    "de_slug": "bekanntgabe",
+    "pl_title": "Ogłoszenie",
+    "de_title": "Bekanntgabe",
+    "confidence": "wysoka"
+   },
+   {
+    "pl": 587,
+    "de": 570,
+    "pl_slug": "ukazal-sie-93-numer-zeszytow-eichendorffa",
+    "de_slug": "ausgabe-nr-93-der-eichendorff-hefte-ist-erschienen",
+    "pl_title": "Ukazał się 93. numer „Zeszytów Eichendorffa”",
+    "de_title": "Ausgabe Nr. 93 der „Eichendorff-Hefte“ ist erschienen",
+    "confidence": "wysoka"
+   },
+   {
+    "pl": 412,
+    "de": 481,
+    "pl_slug": "nowa-ksiazka-marchenbilder-julii-kusswetter-dostepna-w-sprzedazy",
+    "de_slug": "das-neue-buch-maerchenbilder-von-julia-kuesswetter-jetzt-erhaeltlich",
+    "pl_title": "Nowa książka -Märchenbilder- Julii Küßwetter dostępna w sprz",
+    "de_title": "Das neue Buch -Märchenbilder- von Julia Küßwetter jetzt erhä",
+    "confidence": "wysoka"
+   },
+   {
+    "pl": 340,
+    "de": 414,
+    "pl_slug": "zapraszamy-serdecznie-do-korzystania-z-naszych-uslug",
+    "de_slug": "wir-laden-sie-herzlich-ein-unsere-dienstleistungen-zu-nutzen",
+    "pl_title": "Zapraszamy serdecznie do korzystania z naszych usług",
+    "de_title": "Wir laden Sie herzlich ein unsere Dienstleistungen zu nutzen",
+    "confidence": "wysoka"
+   },
+   {
+    "pl": 457,
+    "de": 519,
+    "pl_slug": "noc-muzeow-w-centrum-eichendorffa-2025",
+    "de_slug": "nacht-der-museen-im-eichendorffzentrum-2025",
+    "pl_title": "Noc muzeów w Centrum Eichendorffa",
+    "de_title": "Nacht der museen im Eichendorffzentrum",
+    "confidence": "wysoka"
+   },
+   {
+    "pl": 600,
+    "de": 582,
+    "pl_slug": "nowosci-wydawnicze-zeszyty-eichendorffa-nr-94-i-perly-literatury-slaskiej-nr-22",
+    "de_slug": "neu-erschienen-eichendorff-hefte-nr-94-und-juwelen-schlesischer-literatur-nr-22",
+    "pl_title": "Nowości wydawnicze: „Zeszyty Eichendorffa” nr 94 i „Perły Li",
+    "de_title": "Neu erschienen: „Eichendorff-Hefte“ Nr. 94 und „Juwelen Schl",
+    "confidence": "wysoka"
+   },
+   {
+    "pl": 386,
+    "de": 456,
+    "pl_slug": "spotkanie-kulturalne-w-centrum-eichendorffa",
+    "de_slug": "kulturelles-treffen-im-eichendorff-zentrum",
+    "pl_title": "Spotkanie Kulturalne w Centrum Eichendorffa",
+    "de_title": "Kulturelles Treffen im Eichendorff-Zentrum",
+    "confidence": "wysoka"
+   },
+   {
+    "pl": 481,
+    "de": 531,
+    "pl_slug": "nowy-rozdzial-w-centrum-eichendorffa",
+    "de_slug": "ein-neues-kapitel-im-eichendorff-zentrum",
+    "pl_title": "Nowy rozdział w Centrum Eichendorffa",
+    "de_title": "Ein neues Kapitel im Eichendorff-Zentrum",
+    "confidence": "wysoka"
+   },
+   {
+    "pl": 353,
+    "de": 426,
+    "pl_slug": "pianino-z-przeszloscia-w-centrum-eichendorffa",
+    "de_slug": "klavier-mit-geschichte-im-eichendorff-zentrum",
+    "pl_title": "Pianino z przeszłością w Centrum Eichendorffa",
+    "de_title": "Klavier mit Geschichte im Eichendorff-Zentrum",
+    "confidence": "wysoka"
+   },
+   {
+    "pl": 336,
+    "de": 410,
+    "pl_slug": "stosunki-niemiecko-polskie",
+    "de_slug": "deutsch-polnische-beziehungen",
+    "pl_title": "Stosunki niemiecko-polskie",
+    "de_title": "Deutsch-polnische Beziehungen",
+    "confidence": "wysoka"
+   },
+   {
+    "pl": 330,
+    "de": 405,
+    "pl_slug": "236-rocznica-urodzin-josepha-von-eichendorffa",
+    "de_slug": "236-geburtstags-von-joseph-von-eichendorff",
+    "pl_title": "236 rocznica urodzin Josepha von Eichendorffa",
+    "de_title": "236. Geburtstags von Joseph von Eichendorff",
+    "confidence": "wysoka"
+   },
+   {
+    "pl": 469,
+    "de": 524,
+    "pl_slug": "akademia-brzmienia-u-eichendorffa",
+    "de_slug": "klangakademie-bei-eichendorff",
+    "pl_title": "Akademia Brzmienia u Eichendorffa",
+    "de_title": "Klangakademie bei Eichendorff",
+    "confidence": "wysoka"
+   },
+   {
+    "pl": 415,
+    "de": 484,
+    "pl_slug": "167-rocznica-smierci-josepha-von-eichendorffa",
+    "de_slug": "167-todestags-von-joseph-von-eichendorff",
+    "pl_title": "167 rocznica śmierci Josepha von Eichendorffa",
+    "de_title": "167. Todestags von Joseph von Eichendorff",
+    "confidence": "wysoka"
+   },
+   {
+    "pl": 432,
+    "de": 501,
+    "pl_slug": "boze-narodzenie-2024",
+    "de_slug": "weihnachten-2024",
+    "pl_title": "Boże narodzenie",
+    "de_title": "Weihnachten",
+    "confidence": "wysoka"
+   },
+   {
+    "pl": 448,
+    "de": 513,
+    "pl_slug": "237-rocznica-urodzin-josepha-von-eichendorffa",
+    "de_slug": "237-geburtstags-von-joseph-von-eichendorff",
+    "pl_title": "237 rocznica urodzin Josepha von Eichendorffa",
+    "de_title": "237. Geburtstags von Joseph von Eichendorff",
+    "confidence": "wysoka"
+   },
+   {
+    "pl": 267,
+    "de": 346,
+    "pl_slug": "zyczenia-bozonarodzeniowe-2023",
+    "de_slug": "weihnachtswuensche-2023",
+    "pl_title": "Życzenia bożonarodzeniowe",
+    "de_title": "Weihnachtswünsche",
+    "confidence": "wysoka"
+   },
+   {
+    "pl": 552,
+    "de": 538,
+    "pl_slug": "uroczystosci-z-okazji-238-rocznicy-urodzin-poety-josepha-von-eichendorffa",
+    "de_slug": "feierlichkeiten-zum-238-geburtstag-des-dichters-joseph-von-eichendorff",
+    "pl_title": "Uroczystości z okazji 238. rocznicy urodzin poety Josepha vo",
+    "de_title": "Feierlichkeiten zum 238. Geburtstag des Dichters Joseph von ",
+    "confidence": "wysoka"
+   },
+   {
+    "pl": 429,
+    "de": 498,
+    "pl_slug": "koncert-bozonarodzeniowy-w-lubowicach-2024",
+    "de_slug": "weihnachtskonzert-in-lubowitz-2024",
+    "pl_title": "Koncert Bożonarodzeniowy w Łubowicach 2024",
+    "de_title": "Weihnachtskonzert in Lubowitz 2024",
+    "confidence": "wysoka"
+   },
+   {
+    "pl": 364,
+    "de": 436,
+    "pl_slug": "przedstawienie-skrzydlaty-rumak",
+    "de_slug": "theaterauffuehrung-das-fluegelross",
+    "pl_title": "Przedstawienie - Skrzydlaty Rumak",
+    "de_title": "Theateraufführung - Das Flügelross",
+    "confidence": "wysoka"
+   },
+   {
+    "pl": 274,
+    "de": 352,
+    "pl_slug": "wieczor-koled-w-lubowicach-2024",
+    "de_slug": "abend-der-weihnachtslieder-in-lubowitz-2024",
+    "pl_title": "Wieczór kolęd w Łubowicach",
+    "de_title": "Abend der Weihnachtslieder in Lubowitz",
+    "confidence": "wysoka"
+   },
+   {
+    "pl": 595,
+    "de": 577,
+    "pl_slug": "z-zycia-nicponia-widowisko-teatralne-w-lubowicach",
+    "de_slug": "aus-dem-leben-eines-taugenichts-theaterauffuehrung-in-lubowitz",
+    "pl_title": "„Z życia nicponia” - widowisko teatralne w Łubowicach",
+    "de_title": "„Aus dem Leben eines Taugenichts“ - Theateraufführung in Lub",
+    "confidence": "wysoka"
+   },
+   {
+    "pl": 603,
+    "de": 585,
+    "pl_slug": "dzien-sw-marcina-w-lubowicach-zapraszamy-na-procesje-z-lampionami",
+    "de_slug": "martinstag-in-lubowitz-herzliche-einladung-zum-laternenumzug",
+    "pl_title": "Dzień św. Marcina w Łubowicach - zapraszamy na procesję z la",
+    "de_title": "Martinstag in Lubowitz - Herzliche Einladung zum Laternenumz",
+    "confidence": "wysoka"
+   },
+   {
+    "pl": 345,
+    "de": 417,
+    "pl_slug": "2024-zyczenia-wielkanocne",
+    "de_slug": "2024-frohe-ostern",
+    "pl_title": "Życzenia wielkanocne",
+    "de_title": "Frohe Ostern!",
+    "confidence": "wysoka"
+   },
+   {
+    "pl": 462,
+    "de": 522,
+    "pl_slug": "widowisko-teatralne-jesienne-czary",
+    "de_slug": "die-theaterauffuehrung-zauberei-im-herbste",
+    "pl_title": "Widowisko teatralne -Jesienne czary-",
+    "de_title": "Die Theateraufführung „Zauberei im herbste“",
+    "confidence": "wysoka"
+   },
+   {
+    "pl": 45,
+    "de": 268,
+    "pl_slug": "166-rocznica-smierci-josepha-von-eichendorffa",
+    "de_slug": "166-todestags-von-joseph-von-eichendorff",
+    "pl_title": "166 rocznica śmierci Josepha von Eichendorffa",
+    "de_title": "166. Todestags von Joseph von Eichendorff",
+    "confidence": "wysoka"
+   },
+   {
+    "pl": 257,
+    "de": 50,
+    "pl_slug": "zielona-szkola-w-centrum-eichendorffa-122023",
+    "de_slug": "schullandheim-in-lubowitz-122023",
+    "pl_title": "Zielona szkoła w Centrum Eichendorffa",
+    "de_title": "Schullandheim in Lubowitz",
+    "confidence": "wysoka"
+   },
+   {
+    "pl": 106,
+    "de": 82,
+    "pl_slug": "165-rocznica-smierci-josepha-von-eichendorffa",
+    "de_slug": "165-todestags-von-joseph-von-eichendorff",
+    "pl_title": "165 rocznica śmierci Josepha von Eichendorffa",
+    "de_title": "165. Todestags von Joseph von Eichendorff",
+    "confidence": "wysoka"
+   },
+   {
+    "pl": 138,
+    "de": 122,
+    "pl_slug": "30-rocznica-europejskiej-uroczystosci-lubowickiej",
+    "de_slug": "30-jahre-europakundgebung-in-lubowitz",
+    "pl_title": "30. rocznica europejskiej Uroczystości Łubowickiej",
+    "de_title": "30. Jahre Europakundgebung in Lubowitz",
+    "confidence": "wysoka"
+   },
+   {
+    "pl": 108,
+    "de": 84,
+    "pl_slug": "przedstawienie-teatralne-joseph-von-eichendorff-powraca-do-lubowic",
+    "de_slug": "joseph-von-eichendorff-kehrt-nach-lubowitz-zurueck",
+    "pl_title": "Przedstawienie teatralne -Joseph von Eichendorff powraca do ",
+    "de_title": "Joseph von Eichendorff kehrt nach Lubowitz zurück",
+    "confidence": "wysoka"
+   },
+   {
+    "pl": 96,
+    "de": 67,
+    "pl_slug": "spotkanie-poetow-we-wroclawiu-08-2023",
+    "de_slug": "dichtertreffen-in-breslau",
+    "pl_title": "Spotkanie poetów we Wrocławiu",
+    "de_title": "Dichtertreffen in Breslau",
+    "confidence": "wysoka"
+   },
+   {
+    "pl": 105,
+    "de": 95,
+    "pl_slug": "koncert-bozonarodzeniowy-122022",
+    "de_slug": "weihnachtskonzert-2",
+    "pl_title": "Koncert Bożonarodzeniowy",
+    "de_title": "Weihnachtskonzert",
+    "confidence": "wysoka"
+   },
+   {
+    "pl": 129,
+    "de": 115,
+    "pl_slug": "gloria-in-excelsis-deo",
+    "de_slug": "gloria-in-excelsis-deo",
+    "pl_title": "Gloria in excelsis Deo",
+    "de_title": "Gloria in excelsis Deo",
+    "confidence": "potwierdzona"
+   },
+   {
+    "pl": 102,
+    "de": 74,
+    "pl_slug": "rocznik-lubowicki-nr-xx",
+    "de_slug": "lubowitzer-jahrbuch-xx",
+    "pl_title": "Rocznik Łubowicki nr XX",
+    "de_title": "Lubowitzer Jahrbuch XX",
+    "confidence": "potwierdzona"
+   },
+   {
+    "pl": 112,
+    "de": 86,
+    "pl_slug": "wesolego-alleluja-2",
+    "de_slug": "frohe-ostern",
+    "pl_title": "Wesołego Alleluja!",
+    "de_title": "Frohe Ostern!",
+    "confidence": "potwierdzona"
+   },
+   {
+    "pl": 125,
+    "de": 102,
+    "pl_slug": "wesolego-alleluja-3",
+    "de_slug": "frohe-ostern-3",
+    "pl_title": "Wesołego Alleluja!",
+    "de_title": "Frohe Ostern !",
+    "confidence": "potwierdzona"
+   },
+   {
+    "pl": 128,
+    "de": 114,
+    "pl_slug": "koncert-bozonarodzeniowy-2020",
+    "de_slug": "weihnachtskonzert-2020",
+    "pl_title": "Koncert Bożonarodzeniowy 2020",
+    "de_title": "Weihnachtskonzert 2020",
+    "confidence": "potwierdzona"
+   },
+   {
+    "pl": 139,
+    "de": 123,
+    "pl_slug": "wesolego-alleluja-4",
+    "de_slug": "frohe-ostern-4",
+    "pl_title": "Wesołego Alleluja !",
+    "de_title": "Frohe Ostern !",
+    "confidence": "potwierdzona"
+   },
+   {
+    "pl": 409,
+    "de": 478,
+    "pl_slug": "oboz-szkolny-w-lubowicach",
+    "de_slug": "schullandheim-in-lubowitz",
+    "pl_title": "Obóz szkolny w Łubowicach",
+    "de_title": "Schullandheim in Lubowitz",
+    "confidence": "potwierdzona"
+   },
+   {
+    "pl": 142,
+    "de": 136,
+    "pl_slug": "zyczenia-swiateczno-noworoczne-2019-od-centrum-eichendorffa-w-lubowicach",
+    "de_slug": "weihnachts-und-neujahrswuensche-2019-vom-eichendorffzentrum-in-lubowitz",
+    "pl_title": "Życzenia świąteczno-noworoczne 2019 od Centrum Eichendorffa w Łubowicach",
+    "de_title": "Weihnachts-und Neujahrswünsche 2019 vom Eichendorffzentrum in Lubowitz",
+    "confidence": "potwierdzona"
+   }
+  ],
+  "pl_only": [
+   {
+    "id": 459,
+    "slug": "zatrudnimy-osobe-na-stanowisko-menedzera-ds-kultury",
+    "date": "2025-05-29"
+   },
+   {
+    "id": 444,
+    "slug": "informacja-o-dotacjach-z-mswia-w-2024-roku",
+    "date": "2025-01-01"
+   },
+   {
+    "id": 44,
+    "slug": "informacja-o-dotacjach-z-mswia-w-2023",
+    "date": "2023-11-06"
+   },
+   {
+    "id": 101,
+    "slug": "wesolego-alleluja-042023",
+    "date": "2023-04-04"
+   },
+   {
+    "id": 115,
+    "slug": "koncert-bozonarodzeniowy-2",
+    "date": "2021-12-30"
+   },
+   {
+    "id": 119,
+    "slug": "slask-w-europie",
+    "date": "2021-09-11"
+   },
+   {
+    "id": 121,
+    "slug": "informacja-o-dotacji-od-mswia",
+    "date": "2021-07-07"
+   },
+   {
+    "id": 122,
+    "slug": "otwarcie-kawiarenki",
+    "date": "2021-06-13"
+   },
+   {
+    "id": 127,
+    "slug": "dotacja-od-mswia",
+    "date": "2021-02-04"
+   }
+  ],
+  "de_only": [
+   {
+    "id": 77,
+    "slug": "weihnachtskonzert",
+    "date": "2022-12-29"
+   }
+  ]
+ }
+}

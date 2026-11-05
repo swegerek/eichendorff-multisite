@@ -1,8 +1,12 @@
 <?php
 /**
- * Imports Polish posts from the local copy of the production site.
+ * Imports posts from the local copy of the production site.
  *
- * Run with: wp eval-file tools/import-posts.php <copy-dir>/pl --user=1
+ * The language comes from the copy folder name (`pl` or `de`); run it on the site of that language:
+ *   wp eval-file tools/import-posts.php <copy-dir>/pl --user=1
+ *   wp eval-file tools/import-posts.php <copy-dir>/de --url=<host>/de/ --user=1
+ *
+ * Media go to the shared library of the media site, deduplicated by SHA-256.
  *
  * @package Eichendorff
  */
@@ -11,7 +15,12 @@ defined( 'ABSPATH' ) || exit;
 
 require_once __DIR__ . '/lib/media.php';
 
-$eichendorff_dir = rtrim( $args[0], '/\\' );
+$eichendorff_dir  = rtrim( $args[0], '/\\' );
+$eichendorff_lang = basename( $eichendorff_dir );
+
+if ( ! in_array( $eichendorff_lang, array( 'pl', 'de' ), true ) ) {
+	WP_CLI::error( 'Folder kopii musi kończyć się na pl albo de.' );
+}
 $eichendorff_tax = json_decode( file_get_contents( "$eichendorff_dir/_taxonomies.json" ), true );
 
 /**
@@ -63,7 +72,7 @@ function eichendorff_import_media( array $media, string $dir, int $post_id ): in
 	);
 
 	if ( $attachment ) {
-		update_post_meta( $attachment, '_wp_attachment_image_alt', (string) $media['alt'] );
+		eichendorff_on_media_site( static fn() => update_post_meta( $attachment, '_wp_attachment_image_alt', (string) $media['alt'] ) );
 	}
 
 	return $attachment;
@@ -81,7 +90,7 @@ foreach ( $eichendorff_folders as $eichendorff_folder ) {
 			'post_type'   => 'post',
 			'post_status' => 'any',
 			'meta_key'    => '_eichendorff_source',
-			'meta_value'  => "pl:{$eichendorff_post['id']}",
+			'meta_value'  => "{$eichendorff_lang}:{$eichendorff_post['id']}",
 			'fields'      => 'ids',
 		)
 	);
@@ -110,7 +119,7 @@ foreach ( $eichendorff_folders as $eichendorff_folder ) {
 		continue;
 	}
 
-	update_post_meta( $eichendorff_id, '_eichendorff_source', "pl:{$eichendorff_post['id']}" );
+	update_post_meta( $eichendorff_id, '_eichendorff_source', "{$eichendorff_lang}:{$eichendorff_post['id']}" );
 
 	$eichendorff_content = $eichendorff_post['content']['rendered'];
 
@@ -125,22 +134,35 @@ foreach ( $eichendorff_folders as $eichendorff_folder ) {
 			continue;
 		}
 
+		$eichendorff_local = eichendorff_media_url( $eichendorff_attachment );
+
 		foreach ( $eichendorff_file['referenced_urls'] as $eichendorff_url ) {
-			$eichendorff_content = str_replace( $eichendorff_url, wp_get_attachment_url( $eichendorff_attachment ), $eichendorff_content );
+			// Elementor keeps some addresses in JSON, with escaped slashes.
+			$eichendorff_content = str_replace(
+				array( $eichendorff_url, str_replace( '/', '\/', $eichendorff_url ) ),
+				array( $eichendorff_local, str_replace( '/', '\/', $eichendorff_local ) ),
+				$eichendorff_content
+			);
 		}
 
 		if ( (int) $eichendorff_file['attachment_id'] === (int) $eichendorff_post['featured_media'] ) {
-			set_post_thumbnail( $eichendorff_id, $eichendorff_attachment );
+			// The attachment lives on the media site, so set_post_thumbnail() would not find it here.
+			update_post_meta( $eichendorff_id, '_thumbnail_id', $eichendorff_attachment );
 		}
 	}
 
 	$eichendorff_content = preg_replace( '/\s(srcset|sizes)="[^"]*"/', '', $eichendorff_content );
-	$eichendorff_content = preg_replace( '#https://eichendorff\.pl/(?!de/|wp-content/)#', home_url( '/' ), $eichendorff_content );
+	$eichendorff_content = 'pl' === $eichendorff_lang
+		? preg_replace( '#https://eichendorff\.pl/(?!de/|wp-content/)#', home_url( '/' ), $eichendorff_content )
+		: preg_replace( '#https://eichendorff\.pl/de/(?!wp-content/)#', home_url( '/' ), $eichendorff_content );
 
+	// wp_update_post() unslashes its input, which would strip the backslashes kept in the content.
 	wp_update_post(
-		array(
-			'ID'           => $eichendorff_id,
-			'post_content' => $eichendorff_content,
+		wp_slash(
+			array(
+				'ID'           => $eichendorff_id,
+				'post_content' => $eichendorff_content,
+			)
 		)
 	);
 
