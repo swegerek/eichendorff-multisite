@@ -1,0 +1,114 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/theme.json",
+	"version": 3,
+	"settings": {
+		"appearanceTools": true,
+		"layout": {
+			"contentSize": "1140px",
+			"wideSize": "1140px"
+		},
+		"color": {
+			"defaultPalette": false,
+			"defaultGradients": false,
+			"defaultDuotone": false,
+			"palette": [
+				{ "slug": "ink", "name": "Tekst", "color": "#242424" },
+				{ "slug": "body", "name": "Tekst bazowy", "color": "#333333" },
+				{ "slug": "sand", "name": "Piasek", "color": "#C8B9A0" },
+				{ "slug": "bark", "name": "Kora", "color": "#4B3F2F" },
+				{ "slug": "white", "name": "Biały", "color": "#FFFFFF" },
+				{ "slug": "cream", "name": "Krem", "color": "#FEF3C6" },
+				{ "slug": "butter", "name": "Masło", "color": "#FEE685" },
+				{ "slug": "amber", "name": "Bursztyn", "color": "#FFB900" },
+				{ "slug": "mist", "name": "Mgła", "color": "#D7D3D4" },
+				{ "slug": "stone", "name": "Kamień", "color": "#A6A09B" },
+				{ "slug": "line", "name": "Linia", "color": "#292524" },
+				{ "slug": "page", "name": "Tło strony", "color": "#FAF8F5" }
+			],
+			"gradients": [
+				{
+					"slug": "footer",
+					"name": "Stopka",
+					"gradient": "linear-gradient(135deg, #3E2723 25%, #5D4037 75%)"
+				}
+			]
+		},
+		"typography": {
+			"defaultFontSizes": false,
+			"fluid": false,
+			"fontFamilies": [
+				{
+					"slug": "system",
+					"name": "Systemowy",
+					"fontFamily": "-apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, \"Noto Sans\", sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\""
+				},
+				{
+					"slug": "inter",
+					"name": "Inter",
+					"fontFamily": "\"Inter\", sans-serif"
+				},
+				{
+					"slug": "lora",
+					"name": "Lora",
+					"fontFamily": "\"Lora\", serif",
+					"fontFace": [
+						{
+							"fontFamily": "Lora",
+							"fontStyle": "normal",
+							"fontWeight": "400 700",
+							"fontDisplay": "swap",
+							"src": [ "file:./assets/fonts/lora-latin-ext.woff2" ],
+							"unicodeRange": "U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF"
+						},
+						{
+							"fontFamily": "Lora",
+							"fontStyle": "normal",
+							"fontWeight": "400 700",
+							"fontDisplay": "swap",
+							"src": [ "file:./assets/fonts/lora-latin.woff2" ],
+							"unicodeRange": "U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD"
+						}
+					]
+				}
+			],
+			"fontSizes": [
+				{ "slug": "x-small", "name": "Bardzo mały", "size": "0.75rem" },
+				{ "slug": "small", "name": "Mały", "size": "0.875rem" },
+				{ "slug": "medium", "name": "Średni", "size": "1rem" },
+				{ "slug": "large", "name": "Duży", "size": "1.25rem" },
+				{ "slug": "section", "name": "Sekcja", "size": "clamp(1.25rem, 1.2031rem + 0.2083vw, 1.375rem)" },
+				{ "slug": "heading", "name": "Nagłówek", "size": "clamp(1.125rem, 1.0781rem + 0.2083vw, 1.25rem)" },
+				{ "slug": "x-large", "name": "Bardzo duży", "size": "1.5rem" }
+			]
+		}
+	},
+	"styles": {
+		"color": {
+			"background": "var(--wp--preset--color--page)",
+			"text": "var(--wp--preset--color--body)"
+		},
+		"spacing": {
+			"blockGap": "0"
+		},
+		"typography": {
+			"fontFamily": "var(--wp--preset--font-family--system)",
+			"fontSize": "var(--wp--preset--font-size--medium)",
+			"lineHeight": "1.5"
+		},
+		"elements": {
+			"link": {
+				"color": { "text": "inherit" },
+				"typography": { "textDecoration": "none" }
+			}
+		}
+	},
+	"customTemplates": [
+		{ "name": "page-landing", "title": "Landing", "postTypes": [ "page" ] }
+	],
+	"templateParts": [
+		{ "name": "header", "title": "Nagłówek", "area": "header" },
+		{ "name": "footer", "title": "Stopka", "area": "footer" },
+		{ "name": "breadcrumbs", "title": "Okruszki", "area": "uncategorized" },
+		{ "name": "sidebar", "title": "Panel boczny", "area": "uncategorized" }
+	]
+}

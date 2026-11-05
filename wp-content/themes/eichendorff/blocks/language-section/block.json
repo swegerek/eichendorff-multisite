@@ -1,0 +1,23 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "eichendorff/language-section",
+	"title": "Sekcja językowa",
+	"category": "text",
+	"icon": "translation",
+	"description": "Tekst w jednym języku pod flagą i nazwą języka.",
+	"keywords": [ "język", "flaga", "polski", "deutsch", "english", "čeština" ],
+	"textdomain": "eichendorff",
+	"attributes": {
+		"language": {
+			"type": "string",
+			"enum": [ "pl", "de", "cs", "en" ],
+			"default": "pl"
+		}
+	},
+	"supports": {
+		"html": false
+	},
+	"editorScript": "file:./index.js",
+	"render": "file:./render.php"
+}

@@ -1,0 +1,20 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "eichendorff/trail-list",
+	"title": "Lista szlaków",
+	"category": "media",
+	"icon": "location-alt",
+	"description": "Karty szlaków jedna pod drugą.",
+	"keywords": [
+		"szlak",
+		"trasa",
+		"gpx",
+		"kml"
+	],
+	"textdomain": "eichendorff",
+	"supports": {
+		"html": false
+	},
+	"editorScript": "file:./index.js"
+}

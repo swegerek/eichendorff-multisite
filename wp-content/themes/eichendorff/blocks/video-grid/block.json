@@ -1,0 +1,15 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "eichendorff/video-grid",
+	"title": "Siatka filmów",
+	"category": "media",
+	"icon": "format-video",
+	"description": "Filmy w dwóch kolumnach, każdy pod swoim tytułem; na telefonie w jednej kolumnie.",
+	"keywords": [ "film", "wideo", "youtube" ],
+	"textdomain": "eichendorff",
+	"supports": {
+		"html": false
+	},
+	"editorScript": "file:./index.js"
+}

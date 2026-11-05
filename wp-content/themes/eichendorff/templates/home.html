@@ -1,0 +1,45 @@
+<!-- wp:template-part {"slug":"header","area":"header","tagName":"header"} /-->
+
+<!-- wp:group {"tagName":"main","layout":{"type":"default"}} -->
+<main class="wp-block-group">
+	<!-- wp:pattern {"slug":"eichendorff/home-slider"} /-->
+
+	<!-- wp:template-part {"slug":"breadcrumbs","area":"uncategorized"} /-->
+
+	<!-- wp:group {"className":"site-columns","layout":{"type":"default"}} -->
+	<div class="wp-block-group site-columns">
+		<!-- wp:group {"className":"site-columns__main","layout":{"type":"default"}} -->
+		<div class="wp-block-group site-columns__main">
+			<!-- wp:heading {"className":"news-heading","fontFamily":"inter"} -->
+			<h2 class="wp-block-heading news-heading has-inter-font-family">Aktualności</h2>
+			<!-- /wp:heading -->
+
+			<!-- wp:query {"queryId":0,"query":{"inherit":true},"layout":{"type":"default"}} -->
+			<div class="wp-block-query">
+				<!-- wp:post-template {"className":"news-list","layout":{"type":"default"}} -->
+					<!-- wp:pattern {"slug":"eichendorff/news-card"} /-->
+				<!-- /wp:post-template -->
+
+				<!-- wp:query-pagination {"layout":{"type":"flex","justifyContent":"center"}} -->
+					<!-- wp:query-pagination-previous {"label":"Poprzedni"} /-->
+					<!-- wp:query-pagination-numbers /-->
+					<!-- wp:query-pagination-next {"label":"Następny"} /-->
+				<!-- /wp:query-pagination -->
+
+				<!-- wp:query-no-results -->
+					<!-- wp:paragraph -->
+					<p>Nie znaleziono treści.</p>
+					<!-- /wp:paragraph -->
+				<!-- /wp:query-no-results -->
+			</div>
+			<!-- /wp:query -->
+		</div>
+		<!-- /wp:group -->
+
+		<!-- wp:template-part {"slug":"sidebar","area":"uncategorized","tagName":"aside","className":"site-columns__sidebar"} /-->
+	</div>
+	<!-- /wp:group -->
+</main>
+<!-- /wp:group -->
+
+<!-- wp:template-part {"slug":"footer","area":"footer","tagName":"footer"} /-->
