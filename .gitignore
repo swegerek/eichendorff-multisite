@@ -1,0 +1,20 @@
+# Whitelist: only project code goes into the repo.
+# WordPress core, wp-config.php, uploads and Local's files stay out.
+/*
+!/.gitignore
+!/README.md
+!/wp-config-multisite.sample.php
+
+!/wp-content/
+/wp-content/*
+!/wp-content/mu-plugins/
+!/wp-content/plugins/
+/wp-content/plugins/*
+!/wp-content/plugins/network-media-library/
+!/wp-content/themes/
+/wp-content/themes/*
+!/wp-content/themes/eichendorff/
+
+node_modules/
+.DS_Store
+Thumbs.db
