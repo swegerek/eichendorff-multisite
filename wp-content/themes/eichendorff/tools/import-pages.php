@@ -19,10 +19,36 @@ require_once __DIR__ . '/lib/import-landing.php';
 const EICHENDORFF_SOURCE_SITE = 'https://eichendorff.pl';
 
 /**
+ * Returns the production source of the current site's language.
+ *
+ * Run the import on the site of the language: the Polish site, or the German one with `--url=<host>/de/`.
+ *
+ * @return array{site: string, css: string, meta: string, dir: string, prefix: string}
+ */
+function eichendorff_import_language(): array {
+	return eichendorff_is_german()
+		? array(
+			'site'   => EICHENDORFF_SOURCE_SITE . '/de',
+			'css'    => EICHENDORFF_SOURCE_SITE . '/de/wp-content/uploads/sites/2/elementor/css/',
+			'meta'   => 'de-page',
+			'dir'    => 'pages-de',
+			'prefix' => 'de/',
+		)
+		: array(
+			'site'   => EICHENDORFF_SOURCE_SITE,
+			'css'    => EICHENDORFF_SOURCE_SITE . '/wp-content/uploads/elementor/css/',
+			'meta'   => 'pl-page',
+			'dir'    => 'pages',
+			'prefix' => '',
+		);
+}
+
+/**
  * Returns the folder with the copies of production pages.
  */
 function eichendorff_import_dir(): string {
-	$dir = wp_upload_dir()['basedir'] . '/eichendorff-import/pages';
+	// The copies stay in the media site's uploads, so the German site keeps no files of its own.
+	$dir = eichendorff_on_media_site( static fn() => wp_upload_dir()['basedir'] ) . '/eichendorff-import/' . eichendorff_import_language()['dir'];
 	wp_mkdir_p( $dir );
 
 	return $dir;
@@ -36,7 +62,7 @@ function eichendorff_import_source_pages(): array {
 
 	if ( ! file_exists( $index ) ) {
 		$response = wp_remote_get(
-			EICHENDORFF_SOURCE_SITE . '/wp-json/wp/v2/pages?per_page=100&_fields=id,slug,parent,link,title,menu_order,content',
+			eichendorff_import_language()['site'] . '/wp-json/wp/v2/pages?per_page=100&_fields=id,slug,parent,link,title,menu_order,content',
 			array( 'timeout' => 60 )
 		);
 
@@ -48,7 +74,10 @@ function eichendorff_import_source_pages(): array {
 
 		foreach ( json_decode( wp_remote_retrieve_body( $response ), true ) as $page ) {
 			file_put_contents( eichendorff_import_dir() . "/{$page['id']}.json", wp_json_encode( $page ) );
-			$paths[ trim( (string) wp_parse_url( $page['link'], PHP_URL_PATH ), '/' ) ] = $page['id'];
+			$path            = trim( (string) wp_parse_url( $page['link'], PHP_URL_PATH ), '/' );
+			$prefix          = eichendorff_import_language()['prefix'];
+			$path            = $prefix && str_starts_with( $path, $prefix ) ? substr( $path, strlen( $prefix ) ) : $path;
+			$paths[ $path ] = $page['id'];
 		}
 
 		file_put_contents( $index, wp_json_encode( $paths ) );
@@ -74,7 +103,7 @@ function eichendorff_import_find_page( int $source_id ): int {
 			'post_type'   => 'page',
 			'post_status' => 'any',
 			'meta_key'    => '_eichendorff_source',
-			'meta_value'  => "pl-page:$source_id",
+			'meta_value'  => eichendorff_import_language()['meta'] . ":$source_id",
 			'fields'      => 'ids',
 			'numberposts' => 1,
 		)
@@ -132,11 +161,21 @@ function eichendorff_import_inline( string $html ): string {
 			'sup'    => array(),
 		)
 	);
+	// Links to production pages of this language go to this site; on the German site,
+	// links to Polish pages go to the same path on the Polish site.
 	$html = preg_replace_callback(
-		'#href="' . preg_quote( EICHENDORFF_SOURCE_SITE, '#' ) . '(/(?!wp-content/|de/)[^"]*)"#',
+		'#href="' . preg_quote( eichendorff_import_language()['site'], '#' ) . '(/(?!wp-content/|de/)[^"]*)"#',
 		static fn( array $m ): string => 'href="' . esc_url( home_url( $m[1] ) ) . '"',
 		$html
 	);
+
+	if ( eichendorff_is_german() ) {
+		$html = preg_replace_callback(
+			'#href="' . preg_quote( EICHENDORFF_SOURCE_SITE, '#' ) . '(/(?!wp-content/|de/)[^"]*)"#',
+			static fn( array $m ): string => 'href="' . esc_url( get_home_url( 1, $m[1] ) ) . '"',
+			$html
+		);
+	}
 	// Non-breaking spaces stay: on production they glue words together and change where lines wrap.
 	$html = preg_replace( '#^([ \t\r\n]|<br\s*/?>)+|([ \t\r\n]|<br\s*/?>)+$#', '', $html );
 
@@ -434,8 +473,8 @@ function eichendorff_import_gallery( DOMElement $widget, string $page ): string 
 			'sizeSlug'        => 'medium_large',
 			'linkDestination' => 'none',
 		);
-		$src      = esc_url( wp_get_attachment_image_url( $id, 'medium_large' ) );
-		$alt      = esc_attr( get_post_meta( $id, '_wp_attachment_image_alt', true ) );
+		$src      = esc_url( eichendorff_media_image_url( $id, 'medium_large' ) );
+		$alt      = esc_attr( eichendorff_media_alt( $id ) );
 		$images[] = eichendorff_import_block( 'image', $attrs, "<figure class=\"wp-block-image size-medium_large\"><img src=\"$src\" alt=\"$alt\" class=\"wp-image-$id\"/></figure>" );
 	}
 
@@ -494,6 +533,8 @@ function eichendorff_import_video( DOMElement $widget, string $page ): string {
 		throw new RuntimeException( "$page: widget wideo bez pliku." );
 	}
 
+	// Relative addresses resolve from the host root: production DE writes `../videos/` on `/de/videos/`,
+	// which gives `/de/videos/…` (404), while the files are under `/videos/`.
 	$src   = WP_Http::make_absolute_url( $video->getAttribute( 'src' ), EICHENDORFF_SOURCE_SITE . "/$page/" );
 	$attrs = array();
 
@@ -508,7 +549,7 @@ function eichendorff_import_video( DOMElement $widget, string $page ): string {
 			}
 
 			$attrs['id'] = $id;
-			$src         = wp_get_attachment_url( $id );
+			$src         = eichendorff_media_url( $id );
 		}
 	}
 
@@ -516,7 +557,7 @@ function eichendorff_import_video( DOMElement $widget, string $page ): string {
 
 	if ( $video->getAttribute( 'poster' ) ) {
 		$poster_id = eichendorff_media_from_url( $video->getAttribute( 'poster' ), 0 );
-		$poster    = $poster_id ? ' poster="' . esc_url( wp_get_attachment_url( $poster_id ) ) . '"' : '';
+		$poster    = $poster_id ? ' poster="' . esc_url( eichendorff_media_url( $poster_id ) ) . '"' : '';
 	}
 
 	// Without a poster production loads nothing before the video starts; with one it loads the metadata, the block default.
@@ -751,7 +792,7 @@ function eichendorff_import_page_css( int $source_id ): string {
 	$file = eichendorff_import_dir() . "/$source_id.css";
 
 	if ( ! file_exists( $file ) ) {
-		$response = wp_remote_get( EICHENDORFF_SOURCE_SITE . "/wp-content/uploads/elementor/css/post-$source_id.css", array( 'timeout' => 60 ) );
+		$response = wp_remote_get( eichendorff_import_language()['css'] . "post-$source_id.css", array( 'timeout' => 60 ) );
 		file_put_contents( $file, 200 === wp_remote_retrieve_response_code( $response ) ? wp_remote_retrieve_body( $response ) : '' );
 	}
 
@@ -791,7 +832,7 @@ function eichendorff_import_files( string $html ): string {
 		static function ( array $m ): string {
 			$attachment = eichendorff_media_from_url( html_entity_decode( $m[1] ), 0 );
 
-			return $attachment ? 'href="' . esc_url( wp_get_attachment_url( $attachment ) ) . '"' : $m[0];
+			return $attachment ? 'href="' . esc_url( eichendorff_media_url( $attachment ) ) . '"' : $m[0];
 		},
 		$html
 	);
@@ -928,7 +969,7 @@ function eichendorff_import_page( string $path, array $pages ): int {
 		throw new RuntimeException( "$path: " . $id->get_error_message() );
 	}
 
-	update_post_meta( $id, '_eichendorff_source', "pl-page:{$source['id']}" );
+	update_post_meta( $id, '_eichendorff_source', eichendorff_import_language()['meta'] . ":{$source['id']}" );
 
 	if ( in_array( $path, EICHENDORFF_LANDING_PAGES, true ) ) {
 		update_post_meta( $id, '_wp_page_template', 'page-landing' );

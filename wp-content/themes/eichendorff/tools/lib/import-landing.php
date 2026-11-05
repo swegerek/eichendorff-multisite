@@ -98,7 +98,7 @@ function eichendorff_import_landing_link( string $url, string $page ): string {
 			throw new RuntimeException( "$page: nie udało się pobrać pliku $url." );
 		}
 
-		return wp_get_attachment_url( $id );
+		return eichendorff_media_url( $id );
 	}
 
 	return home_url( substr( $url, strlen( EICHENDORFF_SOURCE_SITE ) ) );
@@ -132,7 +132,7 @@ function eichendorff_import_image( DOMElement $widget, string $page ): string {
 		$attrs = array( 'lightbox' => array( 'enabled' => true ) ) + $attrs;
 	}
 
-	$src = esc_url( wp_get_attachment_image_url( $id, $size ) );
+	$src = esc_url( eichendorff_media_image_url( $id, $size ) );
 
 	return eichendorff_import_block( 'image', $attrs, "<figure class=\"wp-block-image size-$size\"><img src=\"$src\" alt=\"\" class=\"wp-image-$id\"/></figure>" );
 }
@@ -218,7 +218,7 @@ function eichendorff_import_hero( DOMElement $container, string $css, string $pa
 		throw new RuntimeException( "$page: nie udało się pobrać tła nagłówka $image." );
 	}
 
-	$src   = esc_url( wp_get_attachment_image_url( $media, '1536x1536' ) );
+	$src   = esc_url( eichendorff_media_image_url( $media, '1536x1536' ) );
 	$attrs = array(
 		'url'                => $src,
 		'id'                 => $media,
@@ -317,7 +317,7 @@ function eichendorff_import_trail_card( DOMElement $container, string $css, stri
 		}
 
 		$attrs[ "{$type}Id" ]  = $id;
-		$attrs[ "{$type}Url" ] = wp_get_attachment_url( $id );
+		$attrs[ "{$type}Url" ] = eichendorff_media_url( $id );
 	}
 
 	foreach ( array( 'route', 'distance', 'iconColor', 'iconBackground', 'markerColor' ) as $key ) {
@@ -352,7 +352,7 @@ function eichendorff_import_two_column_gallery( array $widgets, string $page ): 
 			'sizeSlug'        => 'medium_large',
 			'linkDestination' => 'none',
 		);
-		$src      = esc_url( wp_get_attachment_image_url( $id, 'medium_large' ) );
+		$src      = esc_url( eichendorff_media_image_url( $id, 'medium_large' ) );
 		$images[] = eichendorff_import_block( 'image', $attrs, "<figure class=\"wp-block-image size-medium_large\"><img src=\"$src\" alt=\"\" class=\"wp-image-$id\"/></figure>" );
 	}
 

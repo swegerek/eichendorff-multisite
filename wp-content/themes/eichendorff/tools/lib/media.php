@@ -42,18 +42,44 @@ function eichendorff_on_media_site( callable $callback ) {
 }
 
 /**
+ * Rewrites an uploads address built after switch_to_blog() to the media site's own address.
+ *
+ * The address still starts with this site's WP_CONTENT_URL, such as `/de/wp-content/`.
+ *
+ * @param string $url Address from the media site.
+ */
+function eichendorff_media_normalize_url( string $url ): string {
+	$media_content_url = eichendorff_on_media_site( static fn() => untrailingslashit( get_option( 'siteurl' ) ) . '/wp-content' );
+
+	return str_replace( content_url(), $media_content_url, $url );
+}
+
+/**
  * Returns the address of an attachment in the shared library.
  *
  * @param int $attachment_id Attachment on the media site.
  */
 function eichendorff_media_url( int $attachment_id ): string {
-	$url = (string) eichendorff_on_media_site( static fn() => wp_get_attachment_url( $attachment_id ) );
+	return eichendorff_media_normalize_url( (string) eichendorff_on_media_site( static fn() => wp_get_attachment_url( $attachment_id ) ) );
+}
 
-	// After switch_to_blog() the uploads address still starts with this site's WP_CONTENT_URL,
-	// such as `/de/wp-content/`; the content keeps the media site's own address instead.
-	$media_content_url = eichendorff_on_media_site( static fn() => untrailingslashit( get_option( 'siteurl' ) ) . '/wp-content' );
+/**
+ * Returns the address of an image size of an attachment in the shared library.
+ *
+ * @param int    $attachment_id Attachment on the media site.
+ * @param string $size          Image size.
+ */
+function eichendorff_media_image_url( int $attachment_id, string $size ): string {
+	return eichendorff_media_normalize_url( (string) eichendorff_on_media_site( static fn() => wp_get_attachment_image_url( $attachment_id, $size ) ) );
+}
 
-	return str_replace( content_url(), $media_content_url, $url );
+/**
+ * Returns the alternative text of an attachment in the shared library.
+ *
+ * @param int $attachment_id Attachment on the media site.
+ */
+function eichendorff_media_alt( int $attachment_id ): string {
+	return (string) eichendorff_on_media_site( static fn() => get_post_meta( $attachment_id, '_wp_attachment_image_alt', true ) );
 }
 
 /**
